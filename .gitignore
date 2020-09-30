@@ -1,0 +1,14 @@
+# log files
+*.log
+
+# coverage
+*.out
+
+# Binary
+collector
+
+# OS files
+.DS_Store
+
+# Build dir
+dist

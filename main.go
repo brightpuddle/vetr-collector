@@ -156,15 +156,12 @@ func writeToDB(responses map[string]goaci.Res) error {
 		Set("collectorVersion", version).
 		Set("timestamp", time.Now().String()).
 		Str
-	if err := db.Update(func(tx *buntdb.Tx) error {
+	return db.Update(func(tx *buntdb.Tx) error {
 		if _, _, err := tx.Set("meta", string(metadata), nil); err != nil {
 			return fmt.Errorf("cannot write metadata to db: %v", err)
 		}
 		return nil
-	}); err != nil {
-		return err
-	}
-	return nil
+	})
 }
 
 func fetch(client goaci.Client, reqs []*Request, log Logger) (map[string]goaci.Res, error) {
@@ -201,7 +198,7 @@ func fetch(client goaci.Client, reqs []*Request, log Logger) (map[string]goaci.R
 }
 
 // Fetch data via API.
-func fetchHttp(args Args, log zerolog.Logger) error {
+func fetchHTTP(args Args, log zerolog.Logger) error {
 	client, err := goaci.NewClient(
 		args.APIC,
 		args.Username,
@@ -284,7 +281,7 @@ func main() {
 			log.Error().Err(err).Msg("cannot read script output")
 		}
 	default:
-		err := fetchHttp(args, log)
+		err := fetchHTTP(args, log)
 		if err != nil {
 			log.Debug().Err(err).Msg("some data could not be fetched")
 		}

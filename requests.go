@@ -6,6 +6,7 @@ import (
 	"github.com/brightpuddle/goaci"
 )
 
+// Mod modifies a goaci Request
 type Mod = func(*goaci.Req)
 
 // Request is an HTTP request.

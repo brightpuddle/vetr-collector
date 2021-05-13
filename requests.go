@@ -3,11 +3,11 @@ package main
 import (
 	"fmt"
 
-	"github.com/brightpuddle/goaci"
+	"collector/aci"
 )
 
-// Mod modifies a goaci Request
-type Mod = func(*goaci.Req)
+// Mod modifies a aci Request
+type Mod = func(*aci.Req)
 
 // Request is an HTTP request.
 type Request struct {
@@ -108,29 +108,29 @@ func getRequests() []*Request {
 		{ // Endpoint count
 			class:  "fvCEp",
 			filter: "#.moCount.attributes",
-			mods:   []Mod{goaci.Query("rsp-subtree-include", "count")},
+			mods:   []Mod{aci.Query("rsp-subtree-include", "count")},
 		},
 		{ // IP count
 			class:  "fvIp",
 			filter: "#.moCount.attributes",
-			mods:   []Mod{goaci.Query("rsp-subtree-include", "count")},
+			mods:   []Mod{aci.Query("rsp-subtree-include", "count")},
 		},
 
 		{ // L4-L7 container count
 			class:  "vnsCDev",
 			filter: "#.moCount.attributes",
-			mods:   []Mod{goaci.Query("rsp-subtree-include", "count")},
+			mods:   []Mod{aci.Query("rsp-subtree-include", "count")},
 		},
 
 		{ // L4-L7 service graph count
 			class:  "vnsGraphInst",
 			filter: "#.moCount.attributes",
-			mods:   []Mod{goaci.Query("rsp-subtree-include", "count")},
+			mods:   []Mod{aci.Query("rsp-subtree-include", "count")},
 		},
 
 		{ // MO count by node
 			class: "ctxClassCnt",
-			mods:  []Mod{goaci.Query("rsp-subtree-class", "l2BD,fvEpP,l3Dom")},
+			mods:  []Mod{aci.Query("rsp-subtree-class", "l2BD,fvEpP,l3Dom")},
 		},
 
 		// Fabric health
@@ -138,7 +138,7 @@ func getRequests() []*Request {
 		{ // Per-device health stats
 			class:  "topSystem",
 			prefix: "healthInst",
-			mods:   []Mod{goaci.Query("rsp-subtree-include", "health,no-scoped")},
+			mods:   []Mod{aci.Query("rsp-subtree-include", "health,no-scoped")},
 			filter: "#.healthInst.attributes",
 		},
 

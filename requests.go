@@ -15,7 +15,7 @@ type Request struct {
 	path   string // Request path
 	prefix string // Prefix for the DB
 	mods   []Mod  // Request modifiers, e.g. query parameters
-	filter string // Result filter (default to #.{class}.attributes)
+	filter string // Result filter (default to imdata.#.{class}.attributes)
 }
 
 func getRequests() []*Request {
@@ -107,24 +107,24 @@ func getRequests() []*Request {
 
 		{ // Endpoint count
 			class:  "fvCEp",
-			filter: "#.moCount.attributes",
+			filter: "imdata.#.moCount.attributes",
 			mods:   []Mod{aci.Query("rsp-subtree-include", "count")},
 		},
 		{ // IP count
 			class:  "fvIp",
-			filter: "#.moCount.attributes",
+			filter: "imdata.#.moCount.attributes",
 			mods:   []Mod{aci.Query("rsp-subtree-include", "count")},
 		},
 
 		{ // L4-L7 container count
 			class:  "vnsCDev",
-			filter: "#.moCount.attributes",
+			filter: "imdata.#.moCount.attributes",
 			mods:   []Mod{aci.Query("rsp-subtree-include", "count")},
 		},
 
 		{ // L4-L7 service graph count
 			class:  "vnsGraphInst",
-			filter: "#.moCount.attributes",
+			filter: "imdata.#.moCount.attributes",
 			mods:   []Mod{aci.Query("rsp-subtree-include", "count")},
 		},
 
@@ -139,7 +139,7 @@ func getRequests() []*Request {
 			class:  "topSystem",
 			prefix: "healthInst",
 			mods:   []Mod{aci.Query("rsp-subtree-include", "health,no-scoped")},
-			filter: "#.healthInst.attributes",
+			filter: "imdata.#.healthInst.attributes",
 		},
 
 		// Switch capacity
@@ -159,7 +159,7 @@ func getRequests() []*Request {
 
 	for _, req := range reqs {
 		if req.filter == "" {
-			req.filter = fmt.Sprintf("#.%s.attributes", req.class)
+			req.filter = fmt.Sprintf("imdata.#.%s.attributes", req.class)
 		}
 		if req.path == "" {
 			req.path = "/api/class/" + req.class

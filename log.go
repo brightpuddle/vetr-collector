@@ -4,10 +4,15 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"sync"
 
 	"github.com/mattn/go-colorable"
 	"github.com/rs/zerolog"
 )
+
+const logFile = "collector.log"
+
+var logMux sync.Mutex
 
 // Logger aliases the zerolog.Logger
 type Logger = zerolog.Logger
@@ -19,9 +24,9 @@ type MultiLevelWriter struct {
 }
 
 func (w MultiLevelWriter) Write(p []byte) (int, error) {
-	mux.Lock()
+	logMux.Lock()
 	count, err := w.file.Write(p)
-	mux.Unlock()
+	logMux.Unlock()
 	return count, err
 }
 

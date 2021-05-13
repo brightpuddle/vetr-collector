@@ -11,6 +11,8 @@ import (
 	"golang.org/x/crypto/ssh/terminal"
 )
 
+const resultZip = "aci-vetr-data.zip"
+
 // input collects CLI input.
 func input(prompt string) string {
 	reader := bufio.NewReader(os.Stdin)
@@ -21,12 +23,10 @@ func input(prompt string) string {
 
 // Args are command line parameters.
 type Args struct {
-	APIC        string `arg:"-a" help:"APIC hostname or IP address"`
-	Username    string `arg:"-u" help:"APIC username"`
-	Password    string `arg:"-p" help:"APIC password"`
-	Output      string `arg:"-o" help:"Output file"`
-	WriteScript bool   `help:"Write requests to icurl script"`
-	ReadRaw     string `help:"Read raw data from manually collection" placeholder:"FILE"`
+	APIC     string `arg:"-a" help:"APIC hostname or IP address"`
+	Username string `arg:"-u" help:"APIC username"`
+	Password string `arg:"-p" help:"APIC password"`
+	Output   string `arg:"-o" help:"Output file"`
 }
 
 // Description is the CLI description string.
@@ -40,25 +40,20 @@ func (Args) Version() string {
 }
 
 // NewArgs collects the CLI args and creates a new 'Args'.
-func newArgs() (Args, error) {
+func newArgs() Args {
 	args := Args{Output: resultZip}
 	arg.MustParse(&args)
 
-	switch {
-	case args.WriteScript || args.ReadRaw != "":
-		return args, nil
-	default:
-		if args.APIC == "" {
-			args.APIC = input("APIC IP:")
-		}
-		if args.Username == "" {
-			args.Username = input("Username:")
-		}
-		if args.Password == "" {
-			fmt.Print("Password: ")
-			pwd, _ := terminal.ReadPassword(int(syscall.Stdin))
-			args.Password = string(pwd)
-		}
+	if args.APIC == "" {
+		args.APIC = input("APIC IP:")
 	}
-	return args, nil
+	if args.Username == "" {
+		args.Username = input("Username:")
+	}
+	if args.Password == "" {
+		fmt.Print("Password: ")
+		pwd, _ := terminal.ReadPassword(int(syscall.Stdin))
+		args.Password = string(pwd)
+	}
+	return args
 }

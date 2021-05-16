@@ -48,12 +48,10 @@ func TestFetch(t *testing.T) {
 	gock.InterceptClient(client.HTTPClient)
 
 	// Test request
-	req := &Request{
-		class:  "fvTenant",
-		prefix: "fvTenant",
-		path:   "/api/class/fvTenant",
-		filter: "imdata.#.fvTenant.attributes",
+	req := Request{
+		Class: "fvTenant",
 	}
+	req.normalize()
 
 	// Mock archive
 	arc := mockArchiveWriter{

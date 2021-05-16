@@ -27,24 +27,29 @@ func getClient(host, usr, pwd string) (aci.Client, error) {
 }
 
 // Fetch data via API.
-func fetchResource(client aci.Client, req *Request, arc archiveWriter) error {
+func fetchResource(client aci.Client, req Request, arc archiveWriter) error {
 	startTime := time.Now()
-	log.Debug().Time("start_time", startTime).Msgf("begin: %s", req.prefix)
+	log.Debug().Time("start_time", startTime).Msgf("begin: %s", req.Prefix)
 
-	log.Info().Str("resource", req.prefix).Msg("fetching resource...")
+	log.Info().Str("resource", req.Prefix).Msg("fetching resource...")
 	log.Debug().Str("url", req.path).Msg("requesting resource")
 
-	res, err := client.Get(req.path, req.mods...)
+	var mods []func(*aci.Req)
+	for k, v := range req.Query {
+		mods = append(mods, aci.Query(k, v))
+	}
+
+	res, err := client.Get(req.path, mods...)
 	if err != nil {
 		return fmt.Errorf("failed to make request for %s: %v", req.path, err)
 	}
-	err = arc.add(req.prefix+".json", []byte(res.Get(req.filter).Raw))
+	err = arc.add(req.Prefix+".json", []byte(res.Get(req.Filter).Raw))
 	if err != nil {
 		return err
 	}
 	log.Debug().
 		TimeDiff("elapsed_time", time.Now(), startTime).
-		Msgf("done: %s", req.prefix)
+		Msgf("done: %s", req.Prefix)
 	return nil
 }
 

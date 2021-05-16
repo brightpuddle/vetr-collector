@@ -38,7 +38,11 @@ func main() {
 	fmt.Println(strings.Repeat("=", 30))
 	var g errgroup.Group
 
-	for _, req := range getRequests() {
+	reqs, err := getRequests()
+	if err != nil {
+		log.Fatal().Err(err).Msgf("Error reading requests.")
+	}
+	for _, req := range reqs {
 		req := req
 		g.Go(func() error {
 			return fetchResource(client, req, arc)

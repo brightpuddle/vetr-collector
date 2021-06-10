@@ -1,8 +1,6 @@
 package main
 
 import (
-	"fmt"
-
 	"collector/aci"
 
 	_ "embed"
@@ -20,15 +18,11 @@ type Mod = func(*aci.Req)
 type Request struct {
 	Class  string            // MO class
 	Prefix string            // Name for filename and class in DB
-	Filter string            // Result filter (default to imdata.#.{Class}.attributes)
 	Query  map[string]string // Query parameters
 	path   string
 }
 
 func (req *Request) normalize() {
-	if req.Filter == "" {
-		req.Filter = fmt.Sprintf("imdata.#.%s.attributes", req.Class)
-	}
 	if req.Prefix == "" {
 		req.Prefix = req.Class
 	}

@@ -35,11 +35,11 @@ func TestFetch(t *testing.T) {
 
 	// Mock API
 	gock.New("https://apic").
-		Get("/api/class/fvTenant.json").
+		Get("/api/class/myClass.json").
 		Reply(200).
 		BodyString(aci.Body{}.
-			Set("imdata.0.fvTenant.attributes.dn", "uni/tn-zero").
-			Set("imdata.1.fvTenant.attributes.dn", "uni/tn-one").
+			Set("imdata.0.myClass.attributes.dn", "uni/my-zero").
+			Set("imdata.1.myClass.attributes.dn", "uni/my-one").
 			Str)
 
 	// Test client
@@ -49,7 +49,7 @@ func TestFetch(t *testing.T) {
 
 	// Test request
 	req := Request{
-		Class: "fvTenant",
+		Class: "myClass",
 	}
 	req.normalize()
 
@@ -63,9 +63,9 @@ func TestFetch(t *testing.T) {
 	a.NoError(err)
 
 	// Verify content written to mock archive
-	content, ok := arc.files["fvTenant.json"]
+	content, ok := arc.files["myClass.json"]
 	a.True(ok)
-	tenants := gjson.ParseBytes(content)
-	a.Equal("uni/tn-zero", tenants.Get("0.dn").Str)
-	a.Equal("uni/tn-one", tenants.Get("1.dn").Str)
+	classes := gjson.ParseBytes(content).Get("imdata.#.myClass.attributes")
+	a.Equal("uni/my-zero", classes.Get("0.dn").Str)
+	a.Equal("uni/my-one", classes.Get("1.dn").Str)
 }

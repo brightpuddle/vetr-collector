@@ -44,7 +44,8 @@ func fetchResource(client aci.Client, req Request, arc archiveWriter) error {
 		return fmt.Errorf("failed to make request for %s: %v", req.path, err)
 	}
 	log.Info().Msgf("%s complete", req.Prefix)
-	err = arc.add(req.Prefix+".json", []byte(res.Get(req.Filter).Raw))
+	// err = arc.add(req.Prefix+".json", []byte(res.Get(req.Filter).Raw))
+	err = arc.add(req.Prefix+".json", []byte(res.Raw))
 	if err != nil {
 		return err
 	}

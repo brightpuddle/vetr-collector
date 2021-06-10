@@ -36,12 +36,22 @@ func main() {
 
 	// Initiate requests
 	fmt.Println(strings.Repeat("=", 30))
-	var g errgroup.Group
 
 	reqs, err := getRequests()
 	if err != nil {
 		log.Fatal().Err(err).Msgf("Error reading requests.")
 	}
+
+	// Fetch queries
+	// for _, req := range reqs {
+	// 	err := fetchResource(client, req, arc)
+	// 	if err != nil {
+	// 		log.Fatal().Err(err).Msg("Error fetching data.")
+	// 	}
+	// }
+
+	// Fetch queries in parallel
+	var g errgroup.Group
 	for _, req := range reqs {
 		req := req
 		g.Go(func() error {
@@ -52,6 +62,7 @@ func main() {
 	if err != nil {
 		log.Fatal().Err(err).Msg("Error fetching data.")
 	}
+
 	fmt.Println(strings.Repeat("=", 30))
 
 	if err != nil {

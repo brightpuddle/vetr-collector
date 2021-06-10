@@ -48,7 +48,7 @@ func NewClient(url, usr, pwd string, mods ...func(*Client)) (Client, error) {
 
 	cookieJar, _ := cookiejar.New(nil)
 	httpClient := http.Client{
-		Timeout:   60 * time.Second,
+		Timeout:   300 * time.Second,
 		Transport: tr,
 		Jar:       cookieJar,
 	}

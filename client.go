@@ -31,7 +31,7 @@ func fetchResource(client aci.Client, req Request, arc archiveWriter) error {
 	startTime := time.Now()
 	log.Debug().Time("start_time", startTime).Msgf("begin: %s", req.Prefix)
 
-	log.Info().Str("resource", req.Prefix).Msg("fetching resource...")
+	log.Info().Msgf("fetching %s...", req.Prefix)
 	log.Debug().Str("url", req.path).Msg("requesting resource")
 
 	var mods []func(*aci.Req)
@@ -43,6 +43,7 @@ func fetchResource(client aci.Client, req Request, arc archiveWriter) error {
 	if err != nil {
 		return fmt.Errorf("failed to make request for %s: %v", req.path, err)
 	}
+	log.Info().Msgf("%s complete", req.Prefix)
 	err = arc.add(req.Prefix+".json", []byte(res.Get(req.Filter).Raw))
 	if err != nil {
 		return err

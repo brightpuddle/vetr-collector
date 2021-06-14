@@ -3,9 +3,10 @@
 ############################################################
 # Infrastructure
 ############################################################
-- class: "topSystem"    # Devices
-- class: "eqptBoard"    # APIC hardware
-- class: "fabricNode"   # Switch hardware
+- class: "topSystem"   # Devices
+- class: "eqptBoard"   # APIC hardware
+- class: "fabricNode"  # Switch hardware
+- class: "infraWiNode" # Cluster state
 
 ############################################################
 # Meta-queries

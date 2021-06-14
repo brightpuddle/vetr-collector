@@ -34,8 +34,23 @@
     rsp-subtree: "full"
     rsp-prop-include: "config-only"
 
-# uni/vmmp-
+# Domains
 - class: "vmmDomP"
+  query:  
+    rsp-subtree: "full"
+    rsp-prop-include: "config-only"
+
+- class: "physDomP"
+  query:  
+    rsp-subtree: "full"
+    rsp-prop-include: "config-only"
+
+- class: "l3extDomP"
+  query:  
+    rsp-subtree: "full"
+    rsp-prop-include: "config-only"
+
+- class: "l2extDomP"
   query:  
     rsp-subtree: "full"
     rsp-prop-include: "config-only"

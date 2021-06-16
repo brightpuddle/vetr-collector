@@ -7,6 +7,7 @@
 - class: "eqptBoard"   # APIC hardware
 - class: "fabricNode"  # Switch hardware
 - class: "infraWiNode" # Cluster state
+- class: "fabricLink"  # Internal link data
 
 ############################################################
 # Meta-queries

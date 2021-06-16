@@ -60,6 +60,7 @@
 # Admin/Operations
 ############################################################
 - class: "firmwareRunning"        # Switch firmware
+- class: "maintUpgJob"            # Upgrade jobs
 - class: "firmwareCtrlrRunning"   # Controller firmware
 - class: "pkiExportEncryptionKey" # Crypto key
 

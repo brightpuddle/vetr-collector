@@ -11,7 +11,7 @@ before:
     - rm -rf dist
     - go mod download
     - go test ./...
-    - python make_script.py > vetr-collector.sh
+    - python make_script.py > dist/vetr-collector.sh
 builds:
   -
     id: collector

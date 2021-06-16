@@ -1,16 +1,21 @@
 #!python
+import os
+
 import yaml
 
 TMP_FOLDER = "/tmp/vetr-collector"
+SCRIPT_NAME = "vetr-collector.sh"
 
 reqs = yaml.load(open("reqs.yaml"), Loader=yaml.Loader)
 
-print("#!/bin/bash")
-print("")
-print("rm -rf %s > /dev/null" % TMP_FOLDER)
-print("mkdir %s" % TMP_FOLDER)
-print("")
-print("# Fetch data from the API")
+f = open(SCRIPT_NAME, "w")
+
+f.write("#!/bin/bash")
+f.write("")
+f.write("rm -rf %s > /dev/null" % TMP_FOLDER)
+f.write("mkdir %s" % TMP_FOLDER)
+f.write("")
+f.write("# Fetch data from the API")
 
 for req in reqs:
     # icurl command
@@ -27,15 +32,17 @@ for req in reqs:
     cmd.append("> %s/%s.json" % (TMP_FOLDER, pfx))
 
     cmd = " ".join(cmd)
-    print(cmd)
+    f.write(cmd)
 
-print("")
-print("# Zip result")
-print("zip -mj ~/aci-vetr-data.zip %s/*.json" % TMP_FOLDER)
-print("")
-print("#Cleanup")
-print("")
-print("rm -rf %s" % TMP_FOLDER)
-print("")
-print("echo Collection complete")
-print("echo Please provice aci-vetr-data.zip to Cisco Services for analysis.")
+f.write("")
+f.write("# Zip result")
+f.write("zip -mj ~/aci-vetr-data.zip %s/*.json" % TMP_FOLDER)
+f.write("")
+f.write("#Cleanup")
+f.write("")
+f.write("rm -rf %s" % TMP_FOLDER)
+f.write("")
+f.write("echo Collection complete")
+f.write("echo Please provide aci-vetr-data.zip to Cisco for analysis.")
+f.close()
+os.chmod(SCRIPT_NAME, 0o722)

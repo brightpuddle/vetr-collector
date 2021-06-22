@@ -16,46 +16,46 @@
 - class: "ctrlrInst"
   query:  
     rsp-subtree: "full"
-    rsp-prop-include: "config-only"
+    # rsp-prop-include: "config-only"
 
 # uni/fabric
 - class: "fabricInst"
   query:  
     rsp-subtree: "full"
-    rsp-prop-include: "config-only"
+    # rsp-prop-include: "config-only"
 
 # uni/infra
 - class: "infraInfra"
   query:  
     rsp-subtree: "full"
-    rsp-prop-include: "config-only"
+    # rsp-prop-include: "config-only"
 
 # uni/tn-
 - class: "fvTenant"
   query:  
     rsp-subtree: "full"
-    rsp-prop-include: "config-only"
+    # rsp-prop-include: "config-only"
 
 # Domains
 - class: "vmmDomP"
   query:  
     rsp-subtree: "full"
-    rsp-prop-include: "config-only"
+    # rsp-prop-include: "config-only"
 
 - class: "physDomP"
   query:  
     rsp-subtree: "full"
-    rsp-prop-include: "config-only"
+    # rsp-prop-include: "config-only"
 
 - class: "l3extDomP"
   query:  
     rsp-subtree: "full"
-    rsp-prop-include: "config-only"
+    # rsp-prop-include: "config-only"
 
 - class: "l2extDomP"
   query:  
     rsp-subtree: "full"
-    rsp-prop-include: "config-only"
+    # rsp-prop-include: "config-only"
 
 ############################################################
 # Admin/Operations

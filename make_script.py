@@ -10,12 +10,16 @@ reqs = yaml.load(open("reqs.yaml"), Loader=yaml.Loader)
 
 f = open(SCRIPT_NAME, "w")
 
-f.write("#!/bin/bash")
-f.write("")
-f.write("rm -rf %s > /dev/null" % TMP_FOLDER)
-f.write("mkdir %s" % TMP_FOLDER)
-f.write("")
-f.write("# Fetch data from the API")
+f.writelines(
+    [
+        "#!/bin/bash\n",
+        "\n",
+        "rm -rf %s > /dev/null\n" % TMP_FOLDER,
+        "mkdir %s\n" % TMP_FOLDER,
+        "\n",
+        "# Fetch data from the API\n",
+    ]
+)
 
 for req in reqs:
     # icurl command
@@ -32,17 +36,21 @@ for req in reqs:
     cmd.append("> %s/%s.json" % (TMP_FOLDER, pfx))
 
     cmd = " ".join(cmd)
-    f.write(cmd)
+    f.writelines([cmd + "\n"])
 
-f.write("")
-f.write("# Zip result")
-f.write("zip -mj ~/aci-vetr-data.zip %s/*.json" % TMP_FOLDER)
-f.write("")
-f.write("#Cleanup")
-f.write("")
-f.write("rm -rf %s" % TMP_FOLDER)
-f.write("")
-f.write("echo Collection complete")
-f.write("echo Please provide aci-vetr-data.zip to Cisco for analysis.")
+f.writelines(
+    [
+        "\n",
+        "# Zip result\n",
+        "zip -mj ~/aci-vetr-data.zip %s/*.json\n" % TMP_FOLDER,
+        "\n",
+        "# Cleanup\n",
+        "\n",
+        "rm -rf %s\n" % TMP_FOLDER,
+        "\n",
+        "echo Collection complete\n",
+        "echo Please provide aci-vetr-data.zip to Cisco for analysis.\n",
+    ]
+)
 f.close()
 os.chmod(SCRIPT_NAME, 0o722)

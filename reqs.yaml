@@ -1,74 +1,74 @@
 # Schema is documented in Requests struct
-
+---
 ############################################################
 # Infrastructure
 ############################################################
-- class: "topSystem"   # Devices
-- class: "eqptBoard"   # APIC hardware
-- class: "fabricNode"  # Switch hardware
-- class: "infraWiNode" # Cluster state
-- class: "fabricLink"  # Internal link data
+- class: "topSystem"    # Devices
+- class: "eqptBoard"    # APIC hardware
+- class: "fabricNode"   # Switch hardware
+- class: "infraWiNode"  # Cluster state
+- class: "fabricLink"   # Internal link data
 
 ############################################################
 # Meta-queries
 ############################################################
 # uni/controller
 - class: "ctrlrInst"
-  query:  
+  query:
     rsp-subtree: "full"
     # rsp-prop-include: "config-only"
 
 # uni/fabric
 - class: "fabricInst"
-  query:  
+  query:
     rsp-subtree: "full"
     # rsp-prop-include: "config-only"
 
 # uni/infra
 - class: "infraInfra"
-  query:  
+  query:
     rsp-subtree: "full"
     # rsp-prop-include: "config-only"
 
 # uni/tn-
 - class: "fvTenant"
-  query:  
+  query:
     rsp-subtree: "full"
     # rsp-prop-include: "config-only"
 
 # Domains
 - class: "vmmDomP"
-  query:  
+  query:
     rsp-subtree: "full"
     # rsp-prop-include: "config-only"
 
 - class: "physDomP"
-  query:  
+  query:
     rsp-subtree: "full"
     # rsp-prop-include: "config-only"
 
 - class: "l3extDomP"
-  query:  
+  query:
     rsp-subtree: "full"
     # rsp-prop-include: "config-only"
 
 - class: "l2extDomP"
-  query:  
+  query:
     rsp-subtree: "full"
     # rsp-prop-include: "config-only"
 
 ############################################################
 # Admin/Operations
 ############################################################
-- class: "firmwareRunning"        # Switch firmware
-- class: "maintUpgJob"            # Upgrade jobs
-- class: "firmwareCtrlrRunning"   # Controller firmware
-- class: "pkiExportEncryptionKey" # Crypto key
+- class: "firmwareRunning"         # Switch firmware
+- class: "maintUpgJob"             # Upgrade jobs
+- class: "firmwareCtrlrRunning"    # Controller firmware
+- class: "pkiExportEncryptionKey"  # Crypto key
 
 ############################################################
 # Faults
 ############################################################
-- class: "faultInst" # Faults
+- class: "faultInst"  # Faults
 
 ############################################################
 # Apps
@@ -79,25 +79,25 @@
 ############################################################
 # Scale
 ############################################################
-- class: "fvcapRule" # Capacity rules
+- class: "fvcapRule"  # Capacity rules
 
 # Endpoint count
 - class: "fvCEp"
-  query:  
+  query:
     rsp-subtree-include: "count"
 
 # IP count
-- class:  "fvIp"
+- class: "fvIp"
   query:
     rsp-subtree-include: "count"
 
 # L4-L7 container count
-- class:  "vnsCDev"
+- class: "vnsCDev"
   query:
     rsp-subtree-include: "count"
 
 # L4-L7 service graph count
-- class:  "vnsGraphInst"
+- class: "vnsGraphInst"
   query:
     rsp-subtree-include: "count"
 
@@ -107,27 +107,26 @@
     rsp-subtree-class: "l2BD,fvEpP,l3Dom"
 
 # Switch capacity
-- class: "eqptcapacityVlanUsage5min"        # VLAN
-- class: "eqptcapacityPolUsage5min"         # TCAM
-- class: "eqptcapacityL2Usage5min"          # L2 local
-- class: "eqptcapacityL2RemoteUsage5min"    # L2 remote
-- class: "eqptcapacityL2TotalUsage5min"     # L2 total
-- class: "eqptcapacityL3Usage5min"          # L3 local
-- class: "eqptcapacityL3UsageCap5min"       # L3 local cap
-- class: "eqptcapacityL3RemoteUsage5min"    # L3 remote
-- class: "eqptcapacityL3RemoteUsageCap5min" # L3 remote cap
-- class: "eqptcapacityL3TotalUsage5min"     # L3 total
-- class: "eqptcapacityL3TotalUsageCap5min"  # L3 total cap
-- class: "eqptcapacityMcastUsage5min"       # Multicast
+- class: "eqptcapacityVlanUsage5min"         # VLAN
+- class: "eqptcapacityPolUsage5min"          # TCAM
+- class: "eqptcapacityL2Usage5min"           # L2 local
+- class: "eqptcapacityL2RemoteUsage5min"     # L2 remote
+- class: "eqptcapacityL2TotalUsage5min"      # L2 total
+- class: "eqptcapacityL3Usage5min"           # L3 local
+- class: "eqptcapacityL3UsageCap5min"        # L3 local cap
+- class: "eqptcapacityL3RemoteUsage5min"     # L3 remote
+- class: "eqptcapacityL3RemoteUsageCap5min"  # L3 remote cap
+- class: "eqptcapacityL3TotalUsage5min"      # L3 total
+- class: "eqptcapacityL3TotalUsageCap5min"   # L3 total cap
+- class: "eqptcapacityMcastUsage5min"        # Multicast
 
 ############################################################
 # Fabric health
 ############################################################
-- class: "fabricHealthTotal" # Total and per-pod health scores
+- class: "fabricHealthTotal"  # Total and per-pod health scores
 
 # Per-device health stats
-- class:  "topSystem"
+- class: "topSystem"
   prefix: "healthInst"
-  query:  
+  query:
     rsp-subtree-include: "health,no-scoped"
-

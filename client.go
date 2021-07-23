@@ -40,8 +40,15 @@ func fetchResource(client aci.Client, req Request, arc archiveWriter) error {
 	}
 
 	res, err := client.Get(req.path, mods...)
+	// Retry for requestRetryCount times
+	for retries := 0; err != nil && retries < args.RequestRetryCount; retries++ {
+		log.Warn().Err(err).Msgf("request failed for %s. Retrying after %d seconds.",
+			req.path, args.RetryDelay)
+		time.Sleep(time.Second * time.Duration(args.RetryDelay))
+		res, err = client.Get(req.path, mods...)
+	}
 	if err != nil {
-		return fmt.Errorf("failed to make request for %s: %v", req.path, err)
+		return fmt.Errorf("request failed for %s: %v", req.path, err)
 	}
 	log.Info().Msgf("%s complete", req.Prefix)
 	// err = arc.add(req.Prefix+".json", []byte(res.Get(req.Filter).Raw))

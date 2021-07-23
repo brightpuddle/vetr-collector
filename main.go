@@ -35,8 +35,6 @@ func main() {
 	defer arc.close()
 
 	// Initiate requests
-	fmt.Println(strings.Repeat("=", 30))
-
 	reqs, err := getRequests()
 	if err != nil {
 		log.Fatal().Err(err).Msgf("Error reading requests.")
@@ -50,23 +48,33 @@ func main() {
 	// 	}
 	// }
 
-	// Fetch queries in parallel
-	var g errgroup.Group
-	for _, req := range reqs {
-		req := req
-		g.Go(func() error {
-			return fetchResource(client, req, arc)
-		})
-	}
-	err = g.Wait()
-	if err != nil {
-		log.Fatal().Err(err).Msg("Error fetching data.")
+	// Batch and fetch queries in parallel
+	batch := 1
+	for i := 0; i < len(reqs); i += args.BatchSize {
+		var g errgroup.Group
+		fmt.Println(strings.Repeat("=", 30))
+		fmt.Println("Fetching request batch", batch)
+		fmt.Println(strings.Repeat("=", 30))
+		for j := i; j < i+args.BatchSize && j < len(reqs); j++ {
+			req := reqs[j]
+			g.Go(func() error {
+				return fetchResource(client, req, arc)
+			})
+		}
+		err = g.Wait()
+		if err != nil {
+			log.Error().Err(err).Msg("Error fetching data.")
+		}
+		batch++
 	}
 
 	fmt.Println(strings.Repeat("=", 30))
+	fmt.Println("Complete")
+	fmt.Println(strings.Repeat("=", 30))
 
 	if err != nil {
-		log.Debug().Err(err).Msg("some data could not be fetched")
+		log.Warn().Err(err).Msg("some data could not be fetched")
+		log.Info().Err(err).Msgf("Available data written to %s.", args.Output)
 	} else {
 		log.Info().Msg("Collection complete.")
 		log.Info().Msgf("Please provide %s to Cisco Services for further analysis.", args.Output)

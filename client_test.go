@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"collector/aci"
+	"collector/pkg/aci"
 
 	"github.com/rs/zerolog"
 	"github.com/stretchr/testify/assert"

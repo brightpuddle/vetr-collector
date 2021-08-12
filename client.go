@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"collector/aci"
+	"collector/pkg/aci"
 )
 
 func getClient(host, usr, pwd string) (aci.Client, error) {

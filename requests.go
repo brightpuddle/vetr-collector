@@ -1,7 +1,7 @@
 package main
 
 import (
-	"collector/aci"
+	"collector/pkg/aci"
 
 	_ "embed"
 

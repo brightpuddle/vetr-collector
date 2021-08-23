@@ -1,4 +1,4 @@
-package main
+package req
 
 import (
 	"collector/pkg/aci"
@@ -19,23 +19,27 @@ type Request struct {
 	Class  string            // MO class
 	Prefix string            // Name for filename and class in DB
 	Query  map[string]string // Query parameters
-	path   string
+	Path   string
 }
 
-func (req *Request) normalize() {
+// Normalize chooses correct class and path.
+// This should be run on all manually created Requests structs.
+func (req *Request) Normalize() *Request {
 	if req.Prefix == "" {
 		req.Prefix = req.Class
 	}
-	req.path = "/api/class/" + req.Class
+	req.Path = "/api/class/" + req.Class
+	return req
 }
 
-func getRequests() (reqs []Request, err error) {
+// GetRequests returns normalized requests
+func GetRequests() (reqs []Request, err error) {
 	err = yaml.Unmarshal(reqsData, &reqs)
 	if err != nil {
 		return
 	}
 	for i := 0; i < len(reqs); i++ {
-		reqs[i].normalize()
+		reqs[i].Normalize()
 	}
 	return
 }

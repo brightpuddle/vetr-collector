@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"collector/pkg/aci"
+	"collector/pkg/req"
 
 	"github.com/rs/zerolog"
 	"github.com/stretchr/testify/assert"
@@ -17,11 +18,11 @@ type mockArchiveWriter struct {
 	files map[string][]byte
 }
 
-func (a mockArchiveWriter) close() error {
+func (a mockArchiveWriter) Close() error {
 	return nil
 }
 
-func (a mockArchiveWriter) add(name string, content []byte) error {
+func (a mockArchiveWriter) Add(name string, content []byte) error {
 	a.files[name] = content
 	return nil
 }
@@ -48,10 +49,10 @@ func TestFetch(t *testing.T) {
 	gock.InterceptClient(client.HTTPClient)
 
 	// Test request
-	req := Request{
+	req := req.Request{
 		Class: "myClass",
 	}
-	req.normalize()
+	req.Normalize()
 
 	// Mock archive
 	arc := mockArchiveWriter{

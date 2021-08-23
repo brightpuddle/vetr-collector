@@ -5,6 +5,10 @@ import (
 	"os"
 	"strings"
 
+	"collector/pkg/archive"
+	"collector/pkg/logger"
+	"collector/pkg/req"
+
 	"github.com/rs/zerolog"
 	"golang.org/x/sync/errgroup"
 )
@@ -17,7 +21,7 @@ var (
 )
 
 func main() {
-	log = newLogger()
+	log = logger.New()
 	args = newArgs()
 
 	// Initialize ACI HTTP client
@@ -28,25 +32,17 @@ func main() {
 
 	// Create results archive
 	os.Remove(args.Output)
-	arc, err := newArchiveWriter(args.Output)
+	arc, err := archive.NewWriter(args.Output)
 	if err != nil {
 		log.Fatal().Err(err).Msgf("Error creating archive file: %s.", args.Output)
 	}
-	defer arc.close()
+	defer arc.Close()
 
 	// Initiate requests
-	reqs, err := getRequests()
+	reqs, err := req.GetRequests()
 	if err != nil {
 		log.Fatal().Err(err).Msgf("Error reading requests.")
 	}
-
-	// Fetch queries
-	// for _, req := range reqs {
-	// 	err := fetchResource(client, req, arc)
-	// 	if err != nil {
-	// 		log.Fatal().Err(err).Msg("Error fetching data.")
-	// 	}
-	// }
 
 	// Batch and fetch queries in parallel
 	batch := 1

@@ -5,6 +5,8 @@ import (
 	"time"
 
 	"collector/pkg/aci"
+	"collector/pkg/archive"
+	"collector/pkg/req"
 )
 
 func getClient(host, usr, pwd string) (aci.Client, error) {
@@ -27,32 +29,32 @@ func getClient(host, usr, pwd string) (aci.Client, error) {
 }
 
 // Fetch data via API.
-func fetchResource(client aci.Client, req Request, arc archiveWriter) error {
+func fetchResource(client aci.Client, req req.Request, arc archive.Writer) error {
 	startTime := time.Now()
 	log.Debug().Time("start_time", startTime).Msgf("begin: %s", req.Prefix)
 
 	log.Info().Msgf("fetching %s...", req.Prefix)
-	log.Debug().Str("url", req.path).Msg("requesting resource")
+	log.Debug().Str("url", req.Path).Msg("requesting resource")
 
 	var mods []func(*aci.Req)
 	for k, v := range req.Query {
 		mods = append(mods, aci.Query(k, v))
 	}
 
-	res, err := client.Get(req.path, mods...)
+	res, err := client.Get(req.Path, mods...)
 	// Retry for requestRetryCount times
 	for retries := 0; err != nil && retries < args.RequestRetryCount; retries++ {
 		log.Warn().Err(err).Msgf("request failed for %s. Retrying after %d seconds.",
-			req.path, args.RetryDelay)
+			req.Path, args.RetryDelay)
 		time.Sleep(time.Second * time.Duration(args.RetryDelay))
-		res, err = client.Get(req.path, mods...)
+		res, err = client.Get(req.Path, mods...)
 	}
 	if err != nil {
-		return fmt.Errorf("request failed for %s: %v", req.path, err)
+		return fmt.Errorf("request failed for %s: %v", req.Path, err)
 	}
 	log.Info().Msgf("%s complete", req.Prefix)
 	// err = arc.add(req.Prefix+".json", []byte(res.Get(req.Filter).Raw))
-	err = arc.add(req.Prefix+".json", []byte(res.Raw))
+	err = arc.Add(req.Prefix+".json", []byte(res.Raw))
 	if err != nil {
 		return err
 	}

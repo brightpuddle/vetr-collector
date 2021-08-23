@@ -6,7 +6,7 @@ import yaml
 TMP_FOLDER = "/tmp/vetr-collector"
 SCRIPT_NAME = "vetr-collector.sh"
 
-reqs = yaml.load(open("reqs.yaml"), Loader=yaml.Loader)
+reqs = yaml.load(open("./pkg/req/reqs.yaml"), Loader=yaml.Loader)
 
 f = open(SCRIPT_NAME, "w")
 

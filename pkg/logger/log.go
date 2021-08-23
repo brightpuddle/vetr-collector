@@ -1,12 +1,12 @@
-package main
+package logger
 
 import (
 	"fmt"
 	"io"
 	"os"
+	"runtime"
 	"sync"
 
-	"github.com/mattn/go-colorable"
 	"github.com/rs/zerolog"
 )
 
@@ -41,7 +41,8 @@ func (w MultiLevelWriter) WriteLevel(level zerolog.Level, p []byte) (int, error)
 	return w.file.Write(p)
 }
 
-func newLogger() Logger {
+// New creates a new logging instance.
+func New() Logger {
 	file, err := os.Create(logFile)
 	if err != nil {
 		panic(fmt.Sprintf("cannot create log file %s", logFile))
@@ -50,9 +51,14 @@ func newLogger() Logger {
 	// zerolog.SetGlobalLevel(zerolog.DebugLevel)
 	zerolog.DurationFieldInteger = true
 
+	windows := false
+	if runtime.GOOS == "windows" {
+		windows = true
+	}
+
 	writer := MultiLevelWriter{
 		file:    file,
-		console: zerolog.ConsoleWriter{Out: colorable.NewColorableStdout()},
+		console: zerolog.ConsoleWriter{Out: os.Stderr, NoColor: windows},
 	}
 	return zerolog.New(writer).With().Timestamp().Logger()
 }

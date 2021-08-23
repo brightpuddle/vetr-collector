@@ -5,7 +5,6 @@ go 1.16
 require (
 	github.com/alexflint/go-arg v1.4.2
 	github.com/kr/pretty v0.2.0 // indirect
-	github.com/mattn/go-colorable v0.1.2
 	github.com/rs/zerolog v1.14.3
 	github.com/stretchr/testify v1.4.0
 	github.com/tidwall/gjson v1.6.0

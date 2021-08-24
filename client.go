@@ -7,6 +7,9 @@ import (
 	"collector/pkg/aci"
 	"collector/pkg/archive"
 	"collector/pkg/req"
+
+	"github.com/tidwall/gjson"
+	"github.com/tidwall/sjson"
 )
 
 func getClient(host, usr, pwd string) (aci.Client, error) {
@@ -26,6 +29,32 @@ func getClient(host, usr, pwd string) (aci.Client, error) {
 		return aci.Client{}, fmt.Errorf("cannot authenticate to the APIC at %s: %v", host, err)
 	}
 	return client, nil
+}
+
+// Split the fvTenant query for large configs
+func fetchTenants(client aci.Client, req req.Request) (gjson.Result, error) {
+	all := ""
+	log.Info().Msg("falling back to fetching tenants individually...")
+	log.Info().Msg("fetching tenant list...")
+	res, err := client.Get(req.Path)
+	if err != nil {
+		return gjson.Result{}, err
+	}
+
+	var mods []func(*aci.Req)
+	for k, v := range req.Query {
+		mods = append(mods, aci.Query(k, v))
+	}
+	for _, tn := range res.Get("imdata.#.fvTenant.attributes").Array() {
+		dn := tn.Get("dn").Str
+		log.Info().Msgf("fetching Tenant %s", tn.Get("name").Str)
+		res, err := client.Get("/api/mo/"+dn, mods...)
+		if err != nil {
+			return gjson.Result{}, err
+		}
+		all, _ = sjson.SetRaw(all, "imdata.-1", res.Get("imdata.0").Raw)
+	}
+	return gjson.Parse(all), nil
 }
 
 // Fetch data via API.
@@ -48,6 +77,9 @@ func fetchResource(client aci.Client, req req.Request, arc archive.Writer) error
 			req.Path, args.RetryDelay)
 		time.Sleep(time.Second * time.Duration(args.RetryDelay))
 		res, err = client.Get(req.Path, mods...)
+	}
+	if err != nil && req.Prefix == "fvTenant" {
+		res, err = fetchTenants(client, req)
 	}
 	if err != nil {
 		return fmt.Errorf("request failed for %s: %v", req.Path, err)

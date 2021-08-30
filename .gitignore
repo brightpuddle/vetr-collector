@@ -1,3 +1,6 @@
+# Collection files
+*.zip
+
 # log files
 *.log
 

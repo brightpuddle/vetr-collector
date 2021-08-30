@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"os"
 	"strings"
 
 	"collector/pkg/archive"
@@ -30,11 +29,12 @@ func main() {
 		log.Fatal().Err(err).Msg("Error initializing ACI client.")
 	}
 
+	outFilename := nextFilename(args.Output)
+
 	// Create results archive
-	os.Remove(args.Output)
-	arc, err := archive.NewWriter(args.Output)
+	arc, err := archive.NewWriter(outFilename)
 	if err != nil {
-		log.Fatal().Err(err).Msgf("Error creating archive file: %s.", args.Output)
+		log.Fatal().Err(err).Msgf("Error creating archive file: %s.", outFilename)
 	}
 	defer arc.Close()
 
@@ -70,10 +70,10 @@ func main() {
 
 	if err != nil {
 		log.Warn().Err(err).Msg("some data could not be fetched")
-		log.Info().Err(err).Msgf("Available data written to %s.", args.Output)
+		log.Info().Err(err).Msgf("Available data written to %s.", outFilename)
 	} else {
 		log.Info().Msg("Collection complete.")
-		log.Info().Msgf("Please provide %s to Cisco Services for further analysis.", args.Output)
+		log.Info().Msgf("Please provide %s to Cisco Services for further analysis.", outFilename)
 	}
 	pause("Press enter to exit.")
 }

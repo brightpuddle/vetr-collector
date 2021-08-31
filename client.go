@@ -60,7 +60,7 @@ func fetchTenants(client aci.Client, req req.Request, mods []func(*aci.Req)) (gj
 
 				res, err := client.Get("/api/mo/"+dn, mods...)
 				if err != nil {
-					return err
+					return fmt.Errorf("cannot fetch tenant %s: %w", tn.Get("name").Str, err)
 				}
 				log.Info().Msgf("Tenant %s complete", tn.Get("name").Str)
 				mu.Lock()

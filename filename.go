@@ -8,7 +8,8 @@ import (
 
 // nextFilename returns the next available filename,
 // e.g. if "file.zip" exists "file (2).zip" will be used, and so on.
-func nextFilename(filename string) string {
+func nextFilename(directory, filename string) string {
+	os.Chdir(directory)
 	if _, err := os.Stat(filename); err != nil {
 		return filename
 	}

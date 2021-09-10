@@ -1,132 +1,94 @@
-# Schema is documented in Requests struct
 ---
-############################################################
-# Infrastructure
-############################################################
-- class: "topSystem"    # Devices
-- class: "eqptBoard"    # APIC hardware
-- class: "fabricNode"   # Switch hardware
-- class: "infraWiNode"  # Cluster state
-- class: "fabricLink"   # Internal link data
+- class: apPlugin
+- class: bgpRRNodePEp
+- class: coopPol
+- class: datetimeNtpProv
+- class: datetimePol
+- class: epControlP
+- class: epIpAgingP
+- class: epLoopProtectP
+- class: eqptcapacityL2RemoteUsage5min
+- class: eqptcapacityL2TotalUsage5min
+- class: eqptcapacityL2Usage5min
+- class: eqptcapacityL3RemoteUsage5min
+- class: eqptcapacityL3RemoteUsageCap5min
+- class: eqptcapacityL3TotalUsage5min
+- class: eqptcapacityL3TotalUsageCap5min
+- class: eqptcapacityL3Usage5min
+- class: eqptcapacityL3UsageCap5min
+- class: eqptcapacityPolUsage5min
+- class: eqptcapacityVlanUsage5min
+- class: fabricCtrlrConfigP
+- class: fabricExplicitGEp
+- class: fabricHealthTotal
+- class: fabricLink
+- class: fabricNode
+- class: fabricNodeBlk
+- class: fabricNodeControl
+- class: fabricNodePEp
+- class: fabricRsLeNodePGrp
+- class: fabricRsNodeCtrl
+- class: fabricRsSpNodePGrp
+- class: fabricRsTimePol
+- class: fabricSetupP
+- class: faultInst
+- class: firmwareCtrlrRunning
+- class: firmwareRunning
+- class: fvAEPg
+- class: fvBD
+- class: fvCtx
+- class: fvRsBd
+- class: fvRsCons
+- class: fvRsCtx
+- class: fvRsDomAtt
+- class: fvRsPathAtt
+- class: fvSubnet
+- class: fvTenant
+- class: fvcapRule
+- class: fvnsEncapBlk
+- class: fvnsVlanInstP
+- class: infraAttEntityP
+- class: infraPortTrackPol
+- class: infraRsAccBaseGrp
+- class: infraRsAccPortP
+- class: infraRsDomP
+- class: infraRsMcpIfPol
+- class: infraRsVlanNs
+- class: infraSetPol
+- class: infraWiNode
+- class: isisDomPol
+- class: l3IfPol
+- class: l3extInstP
+- class: l3extLNodeP
+- class: l3extOut
+- class: l3extRsNodeL3OutAtt
+- class: l3extRsPathL3OutAtt
+- class: maintMaintGrp
+- class: maintMaintP
+- class: maintRsMgrpp
+- class: mcpIfPol
+- class: mcpInstPol
+- class: pkiExportEncryptionKey
+- class: topSystem
+- class: vzBrCP
+- class: vzFilter
 
-############################################################
-# Meta-queries
-############################################################
-# uni/controller
-- class: "ctrlrInst"
+- class: fvCEp
   query:
-    rsp-subtree: "full"
-    # rsp-prop-include: "config-only"
-
-# uni/fabric
-- class: "fabricInst"
+    rsp-subtree-include: count
+- class: fvIp
   query:
-    rsp-subtree: "full"
-    # rsp-prop-include: "config-only"
-
-# uni/infra
-- class: "infraInfra"
+    rsp-subtree-include: count
+- class: vnsCDev
   query:
-    rsp-subtree: "full"
-    # rsp-prop-include: "config-only"
-
-# uni/tn-
-- class: "fvTenant"
+    rsp-subtree-include: count
+- class: vnsGraphInst
   query:
-    rsp-subtree: "full"
-    # rsp-prop-include: "config-only"
-
-# Domains
-- class: "vmmDomP"
+    rsp-subtree-include: count
+- class: ctxClassCnt
   query:
-    rsp-subtree: "full"
-    # rsp-prop-include: "config-only"
-
-- class: "physDomP"
+    rsp-subtree-class: l2BD,fvEpP,l3Dom
+- class: topSystem
+  prefix: healthInst
   query:
-    rsp-subtree: "full"
-    # rsp-prop-include: "config-only"
-
-- class: "l3extDomP"
-  query:
-    rsp-subtree: "full"
-    # rsp-prop-include: "config-only"
-
-- class: "l2extDomP"
-  query:
-    rsp-subtree: "full"
-    # rsp-prop-include: "config-only"
-
-############################################################
-# Admin/Operations
-############################################################
-- class: "firmwareRunning"         # Switch firmware
-- class: "maintUpgJob"             # Upgrade jobs
-- class: "firmwareCtrlrRunning"    # Controller firmware
-- class: "pkiExportEncryptionKey"  # Crypto key
-
-############################################################
-# Faults
-############################################################
-- class: "faultInst"  # Faults
-
-############################################################
-# Apps
-############################################################
-- class: "apUiInfo"
-- class: "apPlugin"
-
-############################################################
-# Scale
-############################################################
-- class: "fvcapRule"  # Capacity rules
-
-# Endpoint count
-- class: "fvCEp"
-  query:
-    rsp-subtree-include: "count"
-
-# IP count
-- class: "fvIp"
-  query:
-    rsp-subtree-include: "count"
-
-# L4-L7 container count
-- class: "vnsCDev"
-  query:
-    rsp-subtree-include: "count"
-
-# L4-L7 service graph count
-- class: "vnsGraphInst"
-  query:
-    rsp-subtree-include: "count"
-
-# MO count by node
-- class: "ctxClassCnt"
-  query:
-    rsp-subtree-class: "l2BD,fvEpP,l3Dom"
-
-# Switch capacity
-- class: "eqptcapacityVlanUsage5min"         # VLAN
-- class: "eqptcapacityPolUsage5min"          # TCAM
-- class: "eqptcapacityL2Usage5min"           # L2 local
-- class: "eqptcapacityL2RemoteUsage5min"     # L2 remote
-- class: "eqptcapacityL2TotalUsage5min"      # L2 total
-- class: "eqptcapacityL3Usage5min"           # L3 local
-- class: "eqptcapacityL3UsageCap5min"        # L3 local cap
-- class: "eqptcapacityL3RemoteUsage5min"     # L3 remote
-- class: "eqptcapacityL3RemoteUsageCap5min"  # L3 remote cap
-- class: "eqptcapacityL3TotalUsage5min"      # L3 total
-- class: "eqptcapacityL3TotalUsageCap5min"   # L3 total cap
-- class: "eqptcapacityMcastUsage5min"        # Multicast
-
-############################################################
-# Fabric health
-############################################################
-- class: "fabricHealthTotal"  # Total and per-pod health scores
-
-# Per-device health stats
-- class: "topSystem"
-  prefix: "healthInst"
-  query:
-    rsp-subtree-include: "health,no-scoped"
+    rsp-subtree-include: health,no-scoped

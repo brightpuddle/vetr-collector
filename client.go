@@ -2,16 +2,11 @@ package main
 
 import (
 	"fmt"
-	"sync"
 	"time"
 
 	"collector/pkg/aci"
 	"collector/pkg/archive"
 	"collector/pkg/req"
-
-	"github.com/tidwall/gjson"
-	"github.com/tidwall/sjson"
-	"golang.org/x/sync/errgroup"
 )
 
 func getClient(host, usr, pwd string) (aci.Client, error) {
@@ -33,50 +28,6 @@ func getClient(host, usr, pwd string) (aci.Client, error) {
 	return client, nil
 }
 
-// fetchTenants splits the fvTenant query for large configs
-func fetchTenants(client aci.Client, req req.Request, mods []func(*aci.Req)) (gjson.Result, error) {
-	all := ""
-	log.Info().Msg("fetching tenant list...")
-	// Fetch only tenants
-	res, err := client.Get(req.Path)
-	if err != nil {
-		return gjson.Result{}, err
-	}
-	tns := res.Get("imdata.#.fvTenant.attributes").Array()
-
-	// Batch tenant requests
-	batch := 1
-	for i := 0; i < len(tns); i += args.BatchSize {
-		var (
-			g  errgroup.Group
-			mu sync.Mutex
-		)
-		log.Debug().Msgf("Fetching tenant request batch %d", batch)
-		for j := i; j < i+args.BatchSize && j < len(tns); j++ {
-			tn := tns[j]
-			g.Go(func() error {
-				dn := tn.Get("dn").Str
-				log.Info().Msgf("fetching Tenant %s", tn.Get("name").Str)
-
-				res, err := client.Get("/api/mo/"+dn, mods...)
-				if err != nil {
-					return fmt.Errorf("cannot fetch tenant %s: %w", tn.Get("name").Str, err)
-				}
-				log.Info().Msgf("Tenant %s complete", tn.Get("name").Str)
-				mu.Lock()
-				all, _ = sjson.SetRaw(all, "imdata.-1", res.Get("imdata.0").Raw)
-				mu.Unlock()
-				return nil
-			})
-		}
-		if err := g.Wait(); err != nil {
-			return gjson.Result{}, err
-		}
-		batch++
-	}
-	return gjson.Parse(all), nil
-}
-
 // Fetch data via API.
 func fetchResource(client aci.Client, req req.Request, arc archive.Writer) error {
 	startTime := time.Now()
@@ -89,22 +40,15 @@ func fetchResource(client aci.Client, req req.Request, arc archive.Writer) error
 	for k, v := range req.Query {
 		mods = append(mods, aci.Query(k, v))
 	}
-	var (
-		res gjson.Result
-		err error
-	)
+
 	// Handle tenants individually for scale purposes
-	if req.Prefix == "fvTenant" {
-		res, err = fetchTenants(client, req, mods)
-	} else {
+	res, err := client.Get(req.Path, mods...)
+	// Retry for requestRetryCount times
+	for retries := 0; err != nil && retries < args.RequestRetryCount; retries++ {
+		log.Warn().Err(err).Msgf("request failed for %s. Retrying after %d seconds.",
+			req.Path, args.RetryDelay)
+		time.Sleep(time.Second * time.Duration(args.RetryDelay))
 		res, err = client.Get(req.Path, mods...)
-		// Retry for requestRetryCount times
-		for retries := 0; err != nil && retries < args.RequestRetryCount; retries++ {
-			log.Warn().Err(err).Msgf("request failed for %s. Retrying after %d seconds.",
-				req.Path, args.RetryDelay)
-			time.Sleep(time.Second * time.Duration(args.RetryDelay))
-			res, err = client.Get(req.Path, mods...)
-		}
 	}
 	if err != nil {
 		return fmt.Errorf("request failed for %s: %v", req.Path, err)

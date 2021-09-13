@@ -10,6 +10,8 @@ import (
 
 	"github.com/rs/zerolog"
 	"golang.org/x/sync/errgroup"
+
+	"path/filepath"
 )
 
 // Version comes from CI
@@ -29,10 +31,13 @@ func main() {
 		log.Fatal().Err(err).Msg("Error initializing ACI client.")
 	}
 
-	outFilename := nextFilename(args.Output)
+	outFilename := nextFilename(args.Directory, args.Output)
+
+	//filepath.FromSlash replaces slash "/" character in path with a separator character depend on the platform.
+	absolutePath := filepath.FromSlash(args.Directory + "/" + outFilename)
 
 	// Create results archive
-	arc, err := archive.NewWriter(outFilename)
+	arc, err := archive.NewWriter(absolutePath)
 	if err != nil {
 		log.Fatal().Err(err).Msgf("Error creating archive file: %s.", outFilename)
 	}

@@ -33,7 +33,6 @@ func main() {
 
 	outFilename := nextFilename(args.Directory, args.Output)
 
-	//filepath.FromSlash replaces slash "/" character in path with a separator character depend on the platform.
 	absolutePath := filepath.FromSlash(args.Directory + "/" + outFilename)
 
 	// Create results archive
@@ -78,7 +77,7 @@ func main() {
 		log.Info().Err(err).Msgf("Available data written to %s.", outFilename)
 	} else {
 		log.Info().Msg("Collection complete.")
-		log.Info().Msgf("Please provide %s to Cisco Services for further analysis.", outFilename)
+		log.Info().Msgf("Please provide %s to Cisco Services for further analysis.", absolutePath)
 	}
 	pause("Press enter to exit.")
 }

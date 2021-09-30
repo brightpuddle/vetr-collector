@@ -26,7 +26,6 @@ type Args struct {
 	APIC              string `arg:"-a" help:"APIC hostname or IP address"`
 	Username          string `arg:"-u" help:"APIC username"`
 	Password          string `arg:"-p" help:"APIC password"`
-	Directory         string `arg:"-d" help:"Directory to save output file"`
 	Output            string `arg:"-o" help:"Output file"`
 	RequestRetryCount int    `arg:"--request-retry-count" default:"3" help:"Times to retry a failed request"`
 	RetryDelay        int    `arg:"--retry-delay" default:"10" help:"Seconds to wait before retry"`
@@ -60,14 +59,5 @@ func newArgs() Args {
 		args.Password = string(pwd)
 		fmt.Println()
 	}
-	if args.Directory == "" {
-		args.Directory = input("Directory for output file:")
-	}
-
-	for _, err := os.Stat(args.Directory); os.IsExist(err); _, err = os.Stat(args.Directory) {
-		fmt.Println("The directory does not exist.")
-		args.Directory = input("Directory for output file:")
-	}
-
 	return args
 }

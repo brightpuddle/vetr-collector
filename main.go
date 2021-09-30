@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"os"
+	"path/filepath"
 	"strings"
 
 	"collector/pkg/archive"
@@ -10,8 +12,6 @@ import (
 
 	"github.com/rs/zerolog"
 	"golang.org/x/sync/errgroup"
-
-	"path/filepath"
 )
 
 // Version comes from CI
@@ -31,14 +31,10 @@ func main() {
 		log.Fatal().Err(err).Msg("Error initializing ACI client.")
 	}
 
-	outFilename := nextFilename(args.Directory, args.Output)
-
-	absolutePath := filepath.FromSlash(args.Directory + "/" + outFilename)
-
 	// Create results archive
-	arc, err := archive.NewWriter(absolutePath)
+	arc, err := archive.NewWriter(args.Output)
 	if err != nil {
-		log.Fatal().Err(err).Msgf("Error creating archive file: %s.", outFilename)
+		log.Fatal().Err(err).Msgf("Error creating archive file: %s.", args.Output)
 	}
 	defer arc.Close()
 
@@ -72,12 +68,18 @@ func main() {
 	fmt.Println("Complete")
 	fmt.Println(strings.Repeat("=", 30))
 
+	path, err := os.Getwd()
+	if err != nil {
+		log.Fatal().Err(err).Msg("cannot read current working directory")
+	}
+	outPath := filepath.Join(path, args.Output)
+
 	if err != nil {
 		log.Warn().Err(err).Msg("some data could not be fetched")
-		log.Info().Err(err).Msgf("Available data written to %s.", outFilename)
+		log.Info().Err(err).Msgf("Available data written to %s.", outPath)
 	} else {
 		log.Info().Msg("Collection complete.")
-		log.Info().Msgf("Please provide %s to Cisco Services for further analysis.", absolutePath)
+		log.Info().Msgf("Please provide %s to Cisco Services for further analysis.", outPath)
 	}
 	pause("Press enter to exit.")
 }

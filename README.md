@@ -57,8 +57,8 @@ Documentation on these endpoints is available in the
 Credentials are only used at the point of collection and are not stored in any
 way.
 
-All data provided to Cisco will be maintained under Cisco's data retention
-policy.
+All data provided to Cisco will be maintained under Cisco's
+[data retention policy](https://www.cisco.com/c/en/us/about/trust-center/global-privacy-policy.html).
 
 # Usage
 

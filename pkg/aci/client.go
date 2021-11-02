@@ -67,7 +67,7 @@ func NewClient(url, usr, pwd string, mods ...func(*Client)) (Client, error) {
 
 // NewReq creates a new Req request for this client.
 func (client Client) NewReq(method, uri string, body io.Reader, mods ...func(*Req)) Req {
-	httpReq, _ := http.NewRequest(method, client.host+uri+".json", body)
+	httpReq, _ := http.NewRequest(method, client.host+":443"+uri+".json", body)
 	req := Req{
 		HttpReq: httpReq,
 		Refresh: true,

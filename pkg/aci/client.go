@@ -8,6 +8,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/http/cookiejar"
+	"strconv"
 	"strings"
 	"time"
 
@@ -105,14 +106,26 @@ func (client *Client) Do(req Req) (Res, error) {
 		return Res{}, err
 	}
 	defer httpRes.Body.Close()
-	if httpRes.StatusCode != http.StatusOK {
-		return Res{}, fmt.Errorf("received HTTP status %d", httpRes.StatusCode)
-	}
+
 	body, err := ioutil.ReadAll(httpRes.Body)
 	if err != nil {
 		return Res{}, errors.New("cannot decode response body")
 	}
-	return Res(gjson.ParseBytes(body)), nil
+
+	res := Res(gjson.ParseBytes(body))
+
+	if httpRes.StatusCode == 400 {
+		errStr := res.Get("imdata.0.error.attributes.text").Str
+		if strings.Contains(errStr, "Unable to process the query, result dataset is too big") {
+			return Res{}, errors.New("result dataset is too big")
+		}
+	}
+
+	if httpRes.StatusCode != http.StatusOK {
+		return Res{}, fmt.Errorf("received HTTP status %d", httpRes.StatusCode)
+	}
+
+	return res, nil
 }
 
 // Get makes a GET request and returns a GJSON result.
@@ -133,7 +146,74 @@ func (client *Client) Do(req Req) (Res, error) {
 //  }
 func (client *Client) Get(path string, mods ...func(*Req)) (Res, error) {
 	req := client.NewReq("GET", path, nil, mods...)
-	return client.Do(req)
+	res, err := client.Do(req)
+	// for testing
+	if strings.Contains(path, "fvRsPathAtt") {
+		res, err = client.GetWithPagination(path, mods...)
+	}
+	if err != nil && err.Error() == "result dataset is too big" {
+		res, err = client.GetWithPagination(path, mods...)
+	}
+	return res, err
+}
+
+func (client *Client) GetWithPagination(path string, mods ...func(*Req)) (Res, error) {
+
+	// type pagination struct {
+	// 	totalCount string
+	// 	imdata     []gjson.Result
+	// }
+
+	pageSize := 10
+	pageNumber := 0
+	path = fmt.Sprintf("%s.json?order-by=fvRsPathAtt.dn&page=%d&page-size=%d", path, pageNumber, pageSize)
+	req := client.NewReq("GET", path, nil, mods...)
+	res, err := client.Do(req)
+
+	if err != nil {
+		return res, err
+	}
+	if !res.Get("imdata").IsArray() {
+		return res, errors.New("imdata is an array")
+	}
+
+	var totalCount string
+	var count int
+	totalCount = res.Get("totalCount").Str
+	count, _ = strconv.Atoi(res.Get("totalCount").Str)
+
+	var tmp string
+	for i, value := range res.Get("imdata").Array() {
+		if i == 0 {
+			tmp = value.Raw
+		} else {
+			tmp = tmp + "," + value.Raw
+		}
+		// pagRes.imdata = append(pagRes.imdata, value)
+	}
+
+	count = count - pageSize
+	for count > 0 {
+		pageNumber = pageNumber + 1
+		path = fmt.Sprintf("%s&page=%d&page-size=%d", path, pageNumber, pageSize)
+		req := client.NewReq("GET", path, nil, mods...)
+		res, err := client.Do(req)
+		if err != nil {
+			return res, err
+		}
+		if !res.Get("imdata").IsArray() {
+			return res, errors.New("imdata is an array")
+		}
+		for _, value := range res.Get("imdata").Array() {
+			tmp = tmp + "," + value.Raw
+			// pagRes.imdata = append(pagRes.imdata, value)
+		}
+		count = count - pageSize
+	}
+
+	json := fmt.Sprintf(`{"totalCount":%s,"imdata":[%s]}`, totalCount, tmp)
+	res = gjson.Parse(json)
+	return res, err
 }
 
 // GetClass makes a GET request by class and unwraps the results.

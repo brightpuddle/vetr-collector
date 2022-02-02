@@ -147,26 +147,18 @@ func (client *Client) Do(req Req) (Res, error) {
 func (client *Client) Get(path string, mods ...func(*Req)) (Res, error) {
 	req := client.NewReq("GET", path, nil, mods...)
 	res, err := client.Do(req)
-	// for testing
-	if strings.Contains(path, "fvRsPathAtt") {
-		res, err = client.GetWithPagination(path, mods...)
-	}
-	if err != nil && err.Error() == "result dataset is too big" {
+	if err != nil && err.Error() == "result dataset is too big" && len(mods) == 0 {
 		res, err = client.GetWithPagination(path, mods...)
 	}
 	return res, err
 }
 
+// GetWithPagination performs a get request with pagination
 func (client *Client) GetWithPagination(path string, mods ...func(*Req)) (Res, error) {
-
-	// type pagination struct {
-	// 	totalCount string
-	// 	imdata     []gjson.Result
-	// }
-
 	pageSize := 10
 	pageNumber := 0
-	path = fmt.Sprintf("%s.json?order-by=fvRsPathAtt.dn&page=%d&page-size=%d", path, pageNumber, pageSize)
+	mods = append(mods, Query("page", strconv.Itoa(pageNumber)))
+	mods = append(mods, Query("page-size", strconv.Itoa(pageSize)))
 	req := client.NewReq("GET", path, nil, mods...)
 	res, err := client.Do(req)
 
@@ -177,10 +169,8 @@ func (client *Client) GetWithPagination(path string, mods ...func(*Req)) (Res, e
 		return res, errors.New("imdata is an array")
 	}
 
-	var totalCount string
-	var count int
-	totalCount = res.Get("totalCount").Str
-	count, _ = strconv.Atoi(res.Get("totalCount").Str)
+	totalCount := res.Get("totalCount").Str
+	count, _ := strconv.Atoi(res.Get("totalCount").Str)
 
 	var tmp string
 	for i, value := range res.Get("imdata").Array() {
@@ -189,13 +179,13 @@ func (client *Client) GetWithPagination(path string, mods ...func(*Req)) (Res, e
 		} else {
 			tmp = tmp + "," + value.Raw
 		}
-		// pagRes.imdata = append(pagRes.imdata, value)
 	}
 
 	count = count - pageSize
 	for count > 0 {
 		pageNumber = pageNumber + 1
-		path = fmt.Sprintf("%s&page=%d&page-size=%d", path, pageNumber, pageSize)
+		mods = append(mods, Query("page", strconv.Itoa(pageNumber)))
+		mods = append(mods, Query("page-size", strconv.Itoa(pageSize)))
 		req := client.NewReq("GET", path, nil, mods...)
 		res, err := client.Do(req)
 		if err != nil {
@@ -206,14 +196,12 @@ func (client *Client) GetWithPagination(path string, mods ...func(*Req)) (Res, e
 		}
 		for _, value := range res.Get("imdata").Array() {
 			tmp = tmp + "," + value.Raw
-			// pagRes.imdata = append(pagRes.imdata, value)
 		}
 		count = count - pageSize
 	}
 
 	json := fmt.Sprintf(`{"totalCount":%s,"imdata":[%s]}`, totalCount, tmp)
-	res = gjson.Parse(json)
-	return res, err
+	return gjson.Parse(json), err
 }
 
 // GetClass makes a GET request by class and unwraps the results.

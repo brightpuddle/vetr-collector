@@ -9,10 +9,10 @@
 
 # Binary
 collector
+collector.exe
 
 # OS files
 .DS_Store
 
 # Build dir
 dist
-collector.exe

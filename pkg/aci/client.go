@@ -166,11 +166,14 @@ func (client *Client) GetWithPagination(path string, mods ...func(*Req)) (Res, e
 		return res, err
 	}
 	if !res.Get("imdata").IsArray() {
-		return res, errors.New("imdata is an array")
+		return res, errors.New("imdata is not an array")
 	}
 
 	totalCount := res.Get("totalCount").Str
-	count, _ := strconv.Atoi(res.Get("totalCount").Str)
+	count, err := strconv.Atoi(res.Get("totalCount").Str)
+	if err != nil {
+		return res, err
+	}
 
 	var tmp string
 	for i, value := range res.Get("imdata").Array() {
@@ -192,7 +195,7 @@ func (client *Client) GetWithPagination(path string, mods ...func(*Req)) (Res, e
 			return res, err
 		}
 		if !res.Get("imdata").IsArray() {
-			return res, errors.New("imdata is an array")
+			return res, errors.New("imdata is not an array")
 		}
 		for _, value := range res.Get("imdata").Array() {
 			tmp = tmp + "," + value.Raw

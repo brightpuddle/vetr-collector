@@ -57,6 +57,8 @@
 - class: infraRsVlanNs
 - class: infraSetPol
 - class: infraWiNode
+- class: ipv4Addr
+- class: ipv6Addr
 - class: isisDomPol
 - class: l3IfPol
 - class: l3extInstP

@@ -6,6 +6,7 @@ mkdir /tmp/vetr-collector
 # Fetch data from the API
 icurl -kG https://localhost/api/class/apPlugin.json > /tmp/vetr-collector/apPlugin.json
 icurl -kG https://localhost/api/class/bgpRRNodePEp.json > /tmp/vetr-collector/bgpRRNodePEp.json
+icurl -kG https://localhost/api/class/configRsRemotePath.json > /tmp/vetr-collector/configRsRemotePath.json
 icurl -kG https://localhost/api/class/coopPol.json > /tmp/vetr-collector/coopPol.json
 icurl -kG https://localhost/api/class/datetimeNtpProv.json > /tmp/vetr-collector/datetimeNtpProv.json
 icurl -kG https://localhost/api/class/datetimePol.json > /tmp/vetr-collector/datetimePol.json
@@ -38,6 +39,7 @@ icurl -kG https://localhost/api/class/fabricRsSpNodePGrp.json > /tmp/vetr-collec
 icurl -kG https://localhost/api/class/fabricRsTimePol.json > /tmp/vetr-collector/fabricRsTimePol.json
 icurl -kG https://localhost/api/class/fabricSetupP.json > /tmp/vetr-collector/fabricSetupP.json
 icurl -kG https://localhost/api/class/faultInst.json > /tmp/vetr-collector/faultInst.json
+icurl -kG https://localhost/api/class/fcDomP.json > /tmp/vetr-collector/fcDomP.json
 icurl -kG https://localhost/api/class/firmwareCtrlrRunning.json > /tmp/vetr-collector/firmwareCtrlrRunning.json
 icurl -kG https://localhost/api/class/firmwareRunning.json > /tmp/vetr-collector/firmwareRunning.json
 icurl -kG https://localhost/api/class/fvAEPg.json > /tmp/vetr-collector/fvAEPg.json
@@ -62,8 +64,12 @@ icurl -kG https://localhost/api/class/infraRsMcpIfPol.json > /tmp/vetr-collector
 icurl -kG https://localhost/api/class/infraRsVlanNs.json > /tmp/vetr-collector/infraRsVlanNs.json
 icurl -kG https://localhost/api/class/infraSetPol.json > /tmp/vetr-collector/infraSetPol.json
 icurl -kG https://localhost/api/class/infraWiNode.json > /tmp/vetr-collector/infraWiNode.json
+icurl -kG https://localhost/api/class/ipv4Addr.json > /tmp/vetr-collector/ipv4Addr.json
+icurl -kG https://localhost/api/class/ipv6Addr.json > /tmp/vetr-collector/ipv6Addr.json
 icurl -kG https://localhost/api/class/isisDomPol.json > /tmp/vetr-collector/isisDomPol.json
+icurl -kG https://localhost/api/class/l2extDomP.json > /tmp/vetr-collector/l2extDomP.json
 icurl -kG https://localhost/api/class/l3IfPol.json > /tmp/vetr-collector/l3IfPol.json
+icurl -kG https://localhost/api/class/l3extDomP.json > /tmp/vetr-collector/l3extDomP.json
 icurl -kG https://localhost/api/class/l3extInstP.json > /tmp/vetr-collector/l3extInstP.json
 icurl -kG https://localhost/api/class/l3extLNodeP.json > /tmp/vetr-collector/l3extLNodeP.json
 icurl -kG https://localhost/api/class/l3extOut.json > /tmp/vetr-collector/l3extOut.json
@@ -74,8 +80,10 @@ icurl -kG https://localhost/api/class/maintMaintP.json > /tmp/vetr-collector/mai
 icurl -kG https://localhost/api/class/maintRsMgrpp.json > /tmp/vetr-collector/maintRsMgrpp.json
 icurl -kG https://localhost/api/class/mcpIfPol.json > /tmp/vetr-collector/mcpIfPol.json
 icurl -kG https://localhost/api/class/mcpInstPol.json > /tmp/vetr-collector/mcpInstPol.json
+icurl -kG https://localhost/api/class/physDomP.json > /tmp/vetr-collector/physDomP.json
 icurl -kG https://localhost/api/class/pkiExportEncryptionKey.json > /tmp/vetr-collector/pkiExportEncryptionKey.json
 icurl -kG https://localhost/api/class/topSystem.json > /tmp/vetr-collector/topSystem.json
+icurl -kG https://localhost/api/class/vmmDomP.json > /tmp/vetr-collector/vmmDomP.json
 icurl -kG https://localhost/api/class/vzBrCP.json > /tmp/vetr-collector/vzBrCP.json
 icurl -kG https://localhost/api/class/vzFilter.json > /tmp/vetr-collector/vzFilter.json
 icurl -kG https://localhost/api/class/fvCEp.json -d 'rsp-subtree-include=count' > /tmp/vetr-collector/fvCEp.json

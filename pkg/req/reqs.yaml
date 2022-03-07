@@ -1,6 +1,7 @@
 ---
 - class: apPlugin
 - class: bgpRRNodePEp
+- class: configRsRemotePath
 - class: coopPol
 - class: datetimeNtpProv
 - class: datetimePol
@@ -33,6 +34,7 @@
 - class: fabricRsTimePol
 - class: fabricSetupP
 - class: faultInst
+- class: fcDomP
 - class: firmwareCtrlrRunning
 - class: firmwareRunning
 - class: fvAEPg
@@ -60,7 +62,9 @@
 - class: ipv4Addr
 - class: ipv6Addr
 - class: isisDomPol
+- class: l2extDomP
 - class: l3IfPol
+- class: l3extDomP
 - class: l3extInstP
 - class: l3extLNodeP
 - class: l3extOut
@@ -71,8 +75,10 @@
 - class: maintRsMgrpp
 - class: mcpIfPol
 - class: mcpInstPol
+- class: physDomP
 - class: pkiExportEncryptionKey
 - class: topSystem
+- class: vmmDomP
 - class: vzBrCP
 - class: vzFilter
 

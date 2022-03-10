@@ -42,14 +42,15 @@ https://github.com/aci-vetr/collector/blob/master/pkg/req/reqs.yaml
 **Note** that this file is part of the CI/CD process for this tool, so is always
 up to date with the latest query data.
 
-# Safety
+# Safety/Security
 
 - All of the queries performed by this tool are also performed by the ACI GUI,
   so there is no more risk than clicking through the GUI.
 - Queries to the APIC are batched and throttled as to ensure reduced load on the
   APIC. Again, this results in less impact to the API than the GUI.
-
-# Security
+- The APIC has internal safeguards to protect against excess API usage
+- API interaction in ACI has no impact on data forwarding behavior
+- This tool is open source and can be compiled manually with the Go compiler
 
 This tool only collects the output of the afformentioned managed objects.
 Documentation on these endpoints is available in the
@@ -59,6 +60,15 @@ way.
 
 All data provided to Cisco will be maintained under Cisco's
 [data retention policy](https://www.cisco.com/c/en/us/about/trust-center/global-privacy-policy.html).
+
+Lastly, the binary collector is not strictly required. The releases downloads
+also include a shell script, named `vetr-collector.sh`. This file can be copied
+up to the APIC using SCP, and run locally. The script uses icurl and zip to
+generate the same output as the binary collector. Note, that the script will
+need to be marked as executable to run on the APIC, i.e.
+`chmod +x vetr-collector.sh`. This is a more involved process and doesn't
+include the batching, throttling, and pagination capabilities of the binary
+collector, but can be used as an alternative collection mechanism if required.
 
 # Usage
 

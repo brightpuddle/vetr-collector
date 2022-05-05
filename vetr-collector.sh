@@ -14,6 +14,7 @@ icurl -kG https://localhost/api/class/epControlP.json > /tmp/vetr-collector/epCo
 icurl -kG https://localhost/api/class/epIpAgingP.json > /tmp/vetr-collector/epIpAgingP.json
 icurl -kG https://localhost/api/class/epLoopProtectP.json > /tmp/vetr-collector/epLoopProtectP.json
 icurl -kG https://localhost/api/class/eqptFlash.json > /tmp/vetr-collector/eqptFlash.json
+icurl -kG https://localhost/api/class/eqptcapacityFSPartition.json > /tmp/vetr-collector/eqptcapacityFSPartition.json
 icurl -kG https://localhost/api/class/eqptcapacityL2RemoteUsage5min.json > /tmp/vetr-collector/eqptcapacityL2RemoteUsage5min.json
 icurl -kG https://localhost/api/class/eqptcapacityL2TotalUsage5min.json > /tmp/vetr-collector/eqptcapacityL2TotalUsage5min.json
 icurl -kG https://localhost/api/class/eqptcapacityL2Usage5min.json > /tmp/vetr-collector/eqptcapacityL2Usage5min.json

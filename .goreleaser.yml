@@ -16,6 +16,7 @@ before:
 builds:
   - id: collector
     binary: collector
+    main: ./cmd/collector
     goos:
       - windows
       - darwin

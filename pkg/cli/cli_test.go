@@ -1,14 +1,12 @@
-package main
+package cli
 
 import (
-	"bytes"
 	"testing"
 	"time"
 
 	"collector/pkg/aci"
 	"collector/pkg/req"
 
-	"github.com/rs/zerolog"
 	"github.com/stretchr/testify/assert"
 	"github.com/tidwall/gjson"
 	"gopkg.in/h2non/gock.v1"
@@ -30,9 +28,6 @@ func (a mockArchiveWriter) Add(name string, content []byte) error {
 func TestFetch(t *testing.T) {
 	a := assert.New(t)
 	defer gock.Off()
-
-	// Overwrite logger with bin bucket
-	log = zerolog.New(&bytes.Buffer{})
 
 	// Mock API
 	gock.New("https://apic").
@@ -60,7 +55,7 @@ func TestFetch(t *testing.T) {
 	}
 
 	// Write zip
-	err := fetchResource(client, req, arc)
+	err := FetchResource(client, req, arc, NewConfig())
 	a.NoError(err)
 
 	// Verify content written to mock archive

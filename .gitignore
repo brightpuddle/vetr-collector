@@ -8,8 +8,8 @@
 *.out
 
 # Binary
-collector
-collector.exe
+/collector
+/collector.exe
 
 # OS files
 .DS_Store

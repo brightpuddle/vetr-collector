@@ -7,26 +7,42 @@ import (
 	"strings"
 
 	"collector/pkg/archive"
+	"collector/pkg/cli"
 	"collector/pkg/logger"
 	"collector/pkg/req"
 
-	"github.com/rs/zerolog"
 	"golang.org/x/sync/errgroup"
 )
 
 // Version comes from CI
 var (
 	version string
-	log     zerolog.Logger
 	args    Args
 )
 
+func pause(msg string) {
+	fmt.Println("Press enter to exit.")
+	var throwaway string
+	fmt.Scanln(&throwaway)
+}
+
 func main() {
-	log = logger.New()
+	log, err := logger.New("collector.log")
+	if err != nil {
+		panic(err)
+	}
 	args = newArgs()
+	cfg := cli.Config{
+		Host:              args.APIC,
+		Username:          args.Username,
+		Password:          args.Password,
+		RetryDelay:        args.RetryDelay,
+		RequestRetryCount: args.RequestRetryCount,
+		BatchSize:         args.BatchSize,
+	}
 
 	// Initialize ACI HTTP client
-	client, err := getClient(args.APIC, args.Username, args.Password)
+	client, err := cli.GetClient(cfg)
 	if err != nil {
 		log.Fatal().Err(err).Msg("Error initializing ACI client.")
 	}
@@ -54,7 +70,7 @@ func main() {
 		for j := i; j < i+args.BatchSize && j < len(reqs); j++ {
 			req := reqs[j]
 			g.Go(func() error {
-				return fetchResource(client, req, arc)
+				return cli.FetchResource(client, req, arc, cfg)
 			})
 		}
 		err = g.Wait()

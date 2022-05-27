@@ -106,5 +106,5 @@ Options:
 To run the code directly from source, running these commands from the root of the repository will allow you to run the program from source. This works best if you'd like to audit the program's functionality, and is especially useful for security audits. Most users should not run the program in this way.
 ```
 > go mod download
-> go run cmd/collector/*.go
+> go run ./cmd/collector/*.go
 ```

@@ -2,8 +2,6 @@
 # Make sure to check the documentation at http://goreleaser.com
 ---
 project_name: vetr-collector
-env_files:
-  github_token: $HOME/.github.com.token
 env:
   - GO111MODULE=on
   - CGO_ENABLED=0

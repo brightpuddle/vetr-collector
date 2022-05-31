@@ -73,7 +73,7 @@ func (client Client) NewReq(method, uri string, body io.Reader, mods ...func(*Re
 		panic(err)
 	}
 	req := Req{
-		HttpReq: httpReq,
+		HTTPReq: httpReq,
 		Refresh: true,
 	}
 	for _, mod := range mods {
@@ -101,7 +101,7 @@ func (client *Client) Do(req Req) (Res, error) {
 		}
 	}
 
-	httpRes, err := client.HTTPClient.Do(req.HttpReq)
+	httpRes, err := client.HTTPClient.Do(req.HTTPReq)
 	if err != nil {
 		return Res{}, err
 	}

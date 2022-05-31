@@ -37,8 +37,8 @@ func (body Body) Res() Res {
 
 // Req wraps http.Request for API requests.
 type Req struct {
-	// HttpReq is the *http.Request obejct.
-	HttpReq *http.Request
+	// HTTPReq is the *http.Request obejct.
+	HTTPReq *http.Request
 	// Refresh indicates whether token refresh should be checked for this request.
 	// Pass NoRefresh to disable Refresh check.
 	Refresh bool
@@ -58,8 +58,8 @@ func NoRefresh(req *Req) {
 //    aci.Query("query-target-filter", `eq(fvBD.name,"bd-name")`))
 func Query(k, v string) func(req *Req) {
 	return func(req *Req) {
-		q := req.HttpReq.URL.Query()
+		q := req.HTTPReq.URL.Query()
 		q.Add(k, v)
-		req.HttpReq.URL.RawQuery = q.Encode()
+		req.HTTPReq.URL.RawQuery = q.Encode()
 	}
 }

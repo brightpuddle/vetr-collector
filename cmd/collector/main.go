@@ -8,8 +8,9 @@ import (
 
 	"collector/pkg/archive"
 	"collector/pkg/cli"
-	"collector/pkg/logger"
 	"collector/pkg/req"
+
+	"github.com/aci-vetr/bats/logger"
 
 	"golang.org/x/sync/errgroup"
 )
@@ -27,7 +28,10 @@ func pause(msg string) {
 }
 
 func main() {
-	log, err := logger.New("collector.log")
+	log, err := logger.New(logger.Config{
+		Filename:     "collector.log",
+		ConsoleLevel: logger.InfoLevel,
+	})
 	if err != nil {
 		panic(err)
 	}

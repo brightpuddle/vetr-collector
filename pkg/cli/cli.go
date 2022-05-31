@@ -3,10 +3,11 @@ package cli
 import (
 	"collector/pkg/aci"
 	"collector/pkg/archive"
-	"collector/pkg/logger"
 	"collector/pkg/req"
 	"fmt"
 	"time"
+
+	"github.com/aci-vetr/bats/logger"
 )
 
 // Config is CLI conifg

@@ -3,13 +3,13 @@ module collector
 go 1.18
 
 require (
-	github.com/aci-vetr/bats v0.3.0
+	github.com/aci-vetr/bats v0.4.1
 	github.com/alexflint/go-arg v1.4.3
 	github.com/stretchr/testify v1.7.1
 	github.com/tidwall/gjson v1.14.1
 	github.com/tidwall/sjson v1.2.4
 	golang.org/x/crypto v0.0.0-20220525230936-793ad666bf5e
-	golang.org/x/sync v0.0.0-20220513210516-0976fa681c29
+	golang.org/x/sync v0.0.0-20220601150217-0de741cfad7f
 	gopkg.in/h2non/gock.v1 v1.1.2
 	gopkg.in/yaml.v2 v2.4.0
 )

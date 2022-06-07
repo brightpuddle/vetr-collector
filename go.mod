@@ -3,7 +3,7 @@ module collector
 go 1.18
 
 require (
-	github.com/aci-vetr/bats v0.4.1
+	github.com/aci-vetr/bats v0.4.3
 	github.com/alexflint/go-arg v1.4.3
 	github.com/stretchr/testify v1.7.1
 	github.com/tidwall/gjson v1.14.1

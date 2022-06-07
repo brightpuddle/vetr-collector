@@ -1,7 +1,7 @@
-github.com/aci-vetr/bats v0.3.0 h1:73je4pUs4wlWAmwYGJrL5xcePJ6Y2dO4G5IKybrt4hg=
-github.com/aci-vetr/bats v0.3.0/go.mod h1:wjPZrRn2onGBD+zJx4kHxIZJCP92sqlIH7cmBE19uYg=
-github.com/aci-vetr/bats v0.4.1 h1:Zw/UnubQOfyfr1vguwp1T3pm9WDJnSocE8oN6pMIqvM=
-github.com/aci-vetr/bats v0.4.1/go.mod h1:wjPZrRn2onGBD+zJx4kHxIZJCP92sqlIH7cmBE19uYg=
+github.com/aci-vetr/bats v0.4.2 h1:QgNr6meClmushECohFk757LsYCYe4nvJbqWXNowUOtE=
+github.com/aci-vetr/bats v0.4.2/go.mod h1:wjPZrRn2onGBD+zJx4kHxIZJCP92sqlIH7cmBE19uYg=
+github.com/aci-vetr/bats v0.4.3 h1:uF+Uum3NTJiFFh9dIvDbxJfq1oeXeDpsbyLqk8Kzgdw=
+github.com/aci-vetr/bats v0.4.3/go.mod h1:wjPZrRn2onGBD+zJx4kHxIZJCP92sqlIH7cmBE19uYg=
 github.com/alexflint/go-arg v1.4.3 h1:9rwwEBpMXfKQKceuZfYcwuc/7YY7tWJbFsgG5cAU/uo=
 github.com/alexflint/go-arg v1.4.3/go.mod h1:3PZ/wp/8HuqRZMUUgu7I+e1qcpUbvmS258mRXkFH4IA=
 github.com/alexflint/go-scalar v1.1.0 h1:aaAouLLzI9TChcPXotr6gUhq+Scr8rl0P9P4PnltbhM=
@@ -56,8 +56,6 @@ golang.org/x/net v0.0.0-20210226172049-e18ecbb05110/go.mod h1:m0MpNAwzfU5UDzcl9v
 golang.org/x/net v0.0.0-20210805182204-aaa1db679c0d/go.mod h1:9nx3DQGgdP8bBQD5qxJ1jj9UTztislL4KSBs9R2vV5Y=
 golang.org/x/sync v0.0.0-20190423024810-112230192c58/go.mod h1:RxMgew5VJxzue5/jJTE5uejpjVlOe/izrB70Jof72aM=
 golang.org/x/sync v0.0.0-20210220032951-036812b2e83c/go.mod h1:RxMgew5VJxzue5/jJTE5uejpjVlOe/izrB70Jof72aM=
-golang.org/x/sync v0.0.0-20220513210516-0976fa681c29 h1:w8s32wxx3sY+OjLlv9qltkLU5yvJzxjjgiHWLjdIcw4=
-golang.org/x/sync v0.0.0-20220513210516-0976fa681c29/go.mod h1:RxMgew5VJxzue5/jJTE5uejpjVlOe/izrB70Jof72aM=
 golang.org/x/sync v0.0.0-20220601150217-0de741cfad7f h1:Ax0t5p6N38Ga0dThY21weqDEyz2oklo4IvDkpigvkD8=
 golang.org/x/sync v0.0.0-20220601150217-0de741cfad7f/go.mod h1:RxMgew5VJxzue5/jJTE5uejpjVlOe/izrB70Jof72aM=
 golang.org/x/sys v0.0.0-20190215142949-d0b11bdaac8a/go.mod h1:STP8DvDyc/dI5b8T5hshtkjS+E42TnysNCUPdjciGhY=

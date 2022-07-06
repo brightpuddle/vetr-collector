@@ -52,6 +52,7 @@
 - class: fvcapRule
 - class: fvnsEncapBlk
 - class: fvnsVlanInstP
+- class: healthInst
 - class: infraAttEntityP
 - class: infraPortTrackPol
 - class: infraRsAccBaseGrp
@@ -99,7 +100,3 @@
 - class: ctxClassCnt
   query:
     rsp-subtree-class: l2BD,fvEpP,l3Dom
-- class: topSystem
-  prefix: healthInst
-  query:
-    rsp-subtree-include: health,no-scoped

@@ -147,9 +147,9 @@ func (client *Client) Do(req Req) (Res, error) {
 func (client *Client) Get(path string, mods ...func(*Req)) (Res, error) {
 	req := client.NewReq("GET", path, nil, mods...)
 	res, err := client.Do(req)
-	if err != nil && err.Error() == "result dataset is too big" && len(mods) == 0 {
-		res, err = client.GetWithPagination(path, mods...)
-	}
+	// if err != nil && err.Error() == "result dataset is too big" && len(mods) == 0 {
+	// 	res, err = client.GetWithPagination(path, mods...)
+	// }
 	return res, err
 }
 

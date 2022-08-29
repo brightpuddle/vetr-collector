@@ -146,13 +146,14 @@ func (client *Client) Do(req Req) (Res, error) {
 //    "totalCount": "1"
 //  }
 func (client *Client) Get(path string, mods ...func(*Req)) (Res, error) {
-	log := logger.Get()
+	// log := logger.Get()
 	req := client.NewReq("GET", path, nil, mods...)
 	res, err := client.Do(req)
-	if err != nil && err.Error() == "result dataset is too big" && len(mods) == 0 {
-		log.Info().Msgf("falling back to pagination for %s", path)
-		res, err = client.GetWithPagination(path, mods...)
-	}
+	// FIXME this is currently hanging. Disabling until it can be fixed
+	// if err != nil && err.Error() == "result dataset is too big" && len(mods) == 0 {
+	// 	log.Info().Msgf("falling back to pagination for %s", path)
+	// 	res, err = client.GetWithPagination(path, mods...)
+	// }
 	return res, err
 }
 

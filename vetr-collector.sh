@@ -57,7 +57,6 @@ icurl -kG https://localhost/api/class/fvTenant.json > /tmp/vetr-collector/fvTena
 icurl -kG https://localhost/api/class/fvcapRule.json > /tmp/vetr-collector/fvcapRule.json
 icurl -kG https://localhost/api/class/fvnsEncapBlk.json > /tmp/vetr-collector/fvnsEncapBlk.json
 icurl -kG https://localhost/api/class/fvnsVlanInstP.json > /tmp/vetr-collector/fvnsVlanInstP.json
-icurl -kG https://localhost/api/class/healthInst.json > /tmp/vetr-collector/healthInst.json
 icurl -kG https://localhost/api/class/infraAttEntityP.json > /tmp/vetr-collector/infraAttEntityP.json
 icurl -kG https://localhost/api/class/infraPortTrackPol.json > /tmp/vetr-collector/infraPortTrackPol.json
 icurl -kG https://localhost/api/class/infraRsAccBaseGrp.json > /tmp/vetr-collector/infraRsAccBaseGrp.json
@@ -85,7 +84,6 @@ icurl -kG https://localhost/api/class/mcpIfPol.json > /tmp/vetr-collector/mcpIfP
 icurl -kG https://localhost/api/class/mcpInstPol.json > /tmp/vetr-collector/mcpInstPol.json
 icurl -kG https://localhost/api/class/physDomP.json > /tmp/vetr-collector/physDomP.json
 icurl -kG https://localhost/api/class/pkiExportEncryptionKey.json > /tmp/vetr-collector/pkiExportEncryptionKey.json
-icurl -kG https://localhost/api/class/topSystem.json > /tmp/vetr-collector/topSystem.json
 icurl -kG https://localhost/api/class/vmmDomP.json > /tmp/vetr-collector/vmmDomP.json
 icurl -kG https://localhost/api/class/vzBrCP.json > /tmp/vetr-collector/vzBrCP.json
 icurl -kG https://localhost/api/class/vzFilter.json > /tmp/vetr-collector/vzFilter.json
@@ -94,6 +92,7 @@ icurl -kG https://localhost/api/class/fvIp.json -d 'rsp-subtree-include=count' >
 icurl -kG https://localhost/api/class/vnsCDev.json -d 'rsp-subtree-include=count' > /tmp/vetr-collector/vnsCDev.json
 icurl -kG https://localhost/api/class/vnsGraphInst.json -d 'rsp-subtree-include=count' > /tmp/vetr-collector/vnsGraphInst.json
 icurl -kG https://localhost/api/class/ctxClassCnt.json -d 'rsp-subtree-class=l2BD,fvEpP,l3Dom' > /tmp/vetr-collector/ctxClassCnt.json
+icurl -kG https://localhost/api/class/topSystem.json -d 'rsp-subtree-include=health' > /tmp/vetr-collector/topSystem.json
 
 # Zip result
 zip -mj ~/aci-vetr-data.zip /tmp/vetr-collector/*.json

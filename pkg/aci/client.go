@@ -274,7 +274,7 @@ func (client *Client) Login() error {
 	}
 	errText := res.Get("imdata.0.error.attributes.text").Str
 	if errText != "" {
-		return errors.New("authentication error")
+		return fmt.Errorf("authentication error: %s", errText)
 	}
 	client.Token = res.Get("imdata.0.aaaLogin.attributes.token").Str
 	client.LastRefresh = time.Now()

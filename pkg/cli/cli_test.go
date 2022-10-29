@@ -47,7 +47,6 @@ func TestFetch(t *testing.T) {
 	req := req.Request{
 		Class: "myClass",
 	}
-	req.Normalize()
 
 	// Mock archive
 	arc := mockArchiveWriter{

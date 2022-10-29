@@ -52,12 +52,13 @@ func GetClient(cfg Config) (aci.Client, error) {
 
 // FetchResource fetches data via API and writes it to the provided archive.
 func FetchResource(client aci.Client, req req.Request, arc archive.Writer, cfg Config) error {
+	path := "/api/class/" + req.Class
 	log := logger.Get()
 	startTime := time.Now()
-	log.Debug().Time("start_time", startTime).Msgf("begin: %s", req.Prefix)
+	log.Debug().Time("start_time", startTime).Msgf("begin: %s", req.Class)
 
-	log.Info().Msgf("fetching %s...", req.Prefix)
-	log.Debug().Str("url", req.Path).Msg("requesting resource")
+	log.Info().Msgf("fetching %s...", req.Class)
+	log.Debug().Str("url", path).Msg("requesting resource")
 
 	var mods []func(*aci.Req)
 	for k, v := range req.Query {
@@ -65,24 +66,24 @@ func FetchResource(client aci.Client, req req.Request, arc archive.Writer, cfg C
 	}
 
 	// Handle tenants individually for scale purposes
-	res, err := client.Get(req.Path, mods...)
+	res, err := client.Get(path, mods...)
 	// Retry for requestRetryCount times
 	for retries := 0; err != nil && retries < cfg.RequestRetryCount; retries++ {
 		log.Warn().Err(err).Msgf("request failed for %s. Retrying after %d seconds.",
-			req.Path, cfg.RetryDelay)
+			path, cfg.RetryDelay)
 		time.Sleep(time.Second * time.Duration(cfg.RetryDelay))
-		res, err = client.Get(req.Path, mods...)
+		res, err = client.Get(path, mods...)
 	}
 	if err != nil {
-		return fmt.Errorf("request failed for %s: %v", req.Path, err)
+		return fmt.Errorf("request failed for %s: %v", path, err)
 	}
-	log.Info().Msgf("%s complete", req.Prefix)
-	err = arc.Add(req.Prefix+".json", []byte(res.Raw))
+	log.Info().Msgf("%s complete", req.Class)
+	err = arc.Add(req.Class+".json", []byte(res.Raw))
 	if err != nil {
 		return err
 	}
 	log.Debug().
 		TimeDiff("elapsed_time", time.Now(), startTime).
-		Msgf("done: %s", req.Prefix)
+		Msgf("done: %s", req.Class)
 	return nil
 }

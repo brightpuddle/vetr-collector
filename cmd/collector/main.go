@@ -15,11 +15,7 @@ import (
 	"golang.org/x/sync/errgroup"
 )
 
-// Version comes from CI
-var (
-	version string
-	args    Args
-)
+var args Args
 
 func pause(msg string) {
 	fmt.Println("Press enter to exit.")

@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"collector"
 	"fmt"
 	"os"
 	"strings"
@@ -39,7 +40,7 @@ func (Args) Description() string {
 
 // Version is the CLI version string.
 func (Args) Version() string {
-	return "version " + version
+	return fmt.Sprintf("version %s", collector.Version)
 }
 
 // NewArgs collects the CLI args and creates a new 'Args'.

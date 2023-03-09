@@ -1,5 +1,98 @@
 [
   {
+    "class": "faultInst",
+    "fields": [
+      "severity",
+      "descr",
+      "ack",
+      "code",
+      "dn"
+    ]
+  },
+  {
+    "class": "eqptFlash",
+    "fields": [
+      "model",
+      "dn",
+      "rev"
+    ]
+  },
+  {
+    "class": "topSystem",
+    "fields": [
+      "fabricId",
+      "id",
+      "serial",
+      "role",
+      "fabricDomain",
+      "model",
+      "name",
+      "oobMgmtAddr",
+      "version",
+      "podId",
+      "dn",
+      "inbMgmtAddr"
+    ]
+  },
+  {
+    "class": "isisDomPol",
+    "fields": [
+      "dn",
+      "redistribMetric"
+    ]
+  },
+  {
+    "class": "fabricSetupP",
+    "fields": [
+      "podId",
+      "dn"
+    ]
+  },
+  {
+    "class": "fabricNode",
+    "fields": [
+      "model",
+      "name",
+      "id",
+      "role",
+      "dn"
+    ]
+  },
+  {
+    "class": "eqptStorage",
+    "fields": [
+      "capUtilized",
+      "name",
+      "device",
+      "mediaWearout",
+      "dn"
+    ]
+  },
+  {
+    "class": "pkiExportEncryptionKey",
+    "fields": [
+      "dn",
+      "keyConfigured"
+    ]
+  },
+  {
+    "class": "fvCtx",
+    "fields": [
+      "name",
+      "pcEnfDir",
+      "dn"
+    ]
+  },
+  {
+    "class": "fabricLink",
+    "fields": [
+      "n1",
+      "r1",
+      "n2",
+      "dn"
+    ]
+  },
+  {
     "class": "infraRsVlanNs",
     "fields": [
       "tDn",
@@ -25,192 +118,6 @@
     ]
   },
   {
-    "class": "eqptStorage",
-    "fields": [
-      "name",
-      "capUtilized",
-      "dn",
-      "device",
-      "mediaWearout"
-    ]
-  },
-  {
-    "class": "fvRsPathAtt",
-    "fields": [
-      "encap",
-      "dn"
-    ]
-  },
-  {
-    "class": "topSystem",
-    "fields": [
-      "name",
-      "id",
-      "oobMgmtAddr",
-      "fabricId",
-      "podId",
-      "inbMgmtAddr",
-      "model",
-      "version",
-      "serial",
-      "dn",
-      "role",
-      "fabricDomain"
-    ]
-  },
-  {
-    "class": "ipv4Addr",
-    "fields": [
-      "dn"
-    ]
-  },
-  {
-    "class": "ipv6Addr",
-    "fields": [
-      "dn"
-    ]
-  },
-  {
-    "class": "eqptcapacityFSPartition",
-    "fields": [
-      "name",
-      "dn",
-      "used",
-      "avail"
-    ]
-  },
-  {
-    "class": "infraRsDomP",
-    "fields": [
-      "tDn",
-      "dn",
-      "state"
-    ]
-  },
-  {
-    "class": "fcDomP",
-    "fields": [
-      "dn"
-    ]
-  },
-  {
-    "class": "vmmDomP",
-    "fields": [
-      "dn"
-    ]
-  },
-  {
-    "class": "configRsRemotePath",
-    "fields": [
-      "tnFileRemotePathName",
-      "dn"
-    ]
-  },
-  {
-    "class": "epIpAgingP",
-    "fields": [
-      "dn",
-      "epIpAgingP"
-    ]
-  },
-  {
-    "class": "fabricSetupP",
-    "fields": [
-      "dn",
-      "podId"
-    ]
-  },
-  {
-    "class": "bgpRRNodePEp",
-    "fields": [
-      "dn",
-      "id",
-      "podId"
-    ]
-  },
-  {
-    "class": "infraPortTrackPol",
-    "fields": [
-      "dn",
-      "minlinks",
-      "adminSt"
-    ]
-  },
-  {
-    "class": "infraSetPol",
-    "fields": [
-      "unicastXrEpLearnDisable",
-      "enforceSubnetCheck",
-      "domainValidation",
-      "dn"
-    ]
-  },
-  {
-    "class": "faultInst",
-    "fields": [
-      "code",
-      "ack",
-      "dn",
-      "severity",
-      "descr"
-    ]
-  },
-  {
-    "class": "epControlP",
-    "fields": [
-      "rogueEpDetectMult",
-      "rogueEpDetectIntvl",
-      "dn",
-      "holdIntvl",
-      "adminSt"
-    ]
-  },
-  {
-    "class": "apPlugin",
-    "fields": [
-      "dn"
-    ]
-  },
-  {
-    "class": "coopPol",
-    "fields": [
-      "type",
-      "dn"
-    ]
-  },
-  {
-    "class": "fabricLink",
-    "fields": [
-      "n1",
-      "r1",
-      "dn",
-      "n2"
-    ]
-  },
-  {
-    "class": "fabricNode",
-    "fields": [
-      "name",
-      "id",
-      "model",
-      "role",
-      "dn"
-    ]
-  },
-  {
-    "class": "fabricExplicitGEp",
-    "fields": [
-      "dn"
-    ]
-  },
-  {
-    "class": "fabricNodePEp",
-    "fields": [
-      "dn",
-      "id"
-    ]
-  },
-  {
     "class": "maintMaintGrp",
     "fields": [
       "name",
@@ -229,16 +136,396 @@
     "class": "maintMaintP",
     "fields": [
       "version",
-      "graceful",
-      "dn"
+      "dn",
+      "graceful"
     ]
   },
   {
     "class": "fabricNodeBlk",
     "fields": [
       "from_",
+      "to_",
+      "dn"
+    ]
+  },
+  {
+    "class": "firmwareRunning",
+    "fields": [
       "dn",
-      "to_"
+      "peVer"
+    ]
+  },
+  {
+    "class": "firmwareCtrlrRunning",
+    "fields": [
+      "version",
+      "dn"
+    ]
+  },
+  {
+    "class": "fabricHealthTotal",
+    "fields": [
+      "cur",
+      "dn"
+    ]
+  },
+  {
+    "class": "healthInst",
+    "query": {
+      "query-target-filter": "wcard(healthInst.dn,\"^sys/health$\")"
+    },
+    "fields": [
+      "cur",
+      "dn"
+    ]
+  },
+  {
+    "class": "infraSetPol",
+    "fields": [
+      "enforceSubnetCheck",
+      "domainValidation",
+      "dn",
+      "unicastXrEpLearnDisable"
+    ]
+  },
+  {
+    "class": "fvRsPathAtt",
+    "fields": [
+      "encap",
+      "dn"
+    ]
+  },
+  {
+    "class": "eqptSupC",
+    "fields": [
+      "model",
+      "dn"
+    ]
+  },
+  {
+    "class": "fvTenant",
+    "fields": [
+      "name",
+      "dn"
+    ]
+  },
+  {
+    "class": "fvBD",
+    "fields": [
+      "unicastRoute",
+      "name",
+      "multiDstPktAct",
+      "arpFlood",
+      "limitIPLearnToSubnets",
+      "ipLearning",
+      "dn",
+      "unkMacUcastAct"
+    ]
+  },
+  {
+    "class": "vzBrCP",
+    "fields": [
+      "name",
+      "dn"
+    ]
+  },
+  {
+    "class": "fvAEPg",
+    "fields": [
+      "dn"
+    ]
+  },
+  {
+    "class": "l3extOut",
+    "fields": [
+      "name",
+      "dn"
+    ]
+  },
+  {
+    "class": "epLoopProtectP",
+    "fields": [
+      "loopDetectMult",
+      "dn",
+      "adminSt",
+      "loopDetectIntvl"
+    ]
+  },
+  {
+    "class": "bgpRRNodePEp",
+    "fields": [
+      "dn",
+      "podId",
+      "id"
+    ]
+  },
+  {
+    "class": "eqptcapacityFSPartition",
+    "fields": [
+      "avail",
+      "name",
+      "dn",
+      "used"
+    ]
+  },
+  {
+    "class": "fvSubnet",
+    "fields": [
+      "dn",
+      "ip"
+    ]
+  },
+  {
+    "class": "fvRsBd",
+    "fields": [
+      "dn"
+    ]
+  },
+  {
+    "class": "l3extRsPathL3OutAtt",
+    "fields": [
+      "tDn",
+      "ifInstT",
+      "addr",
+      "encap",
+      "dn"
+    ]
+  },
+  {
+    "class": "ipv4Addr",
+    "fields": [
+      "dn"
+    ]
+  },
+  {
+    "class": "ipv6Addr",
+    "fields": [
+      "dn"
+    ]
+  },
+  {
+    "class": "coopPol",
+    "fields": [
+      "type",
+      "dn"
+    ]
+  },
+  {
+    "class": "mcpInstPol",
+    "fields": [
+      "dn",
+      "ctrl",
+      "adminSt"
+    ]
+  },
+  {
+    "class": "l3extLNodeP",
+    "fields": [
+      "dn"
+    ]
+  },
+  {
+    "class": "l3extRsNodeL3OutAtt",
+    "fields": [
+      "dn"
+    ]
+  },
+  {
+    "class": "fvnsVlanInstP",
+    "fields": [
+      "dn"
+    ]
+  },
+  {
+    "class": "fvnsEncapBlk",
+    "fields": [
+      "from",
+      "dn",
+      "to"
+    ]
+  },
+  {
+    "class": "infraAttEntityP",
+    "fields": [
+      "dn"
+    ]
+  },
+  {
+    "class": "infraRsDomP",
+    "fields": [
+      "tDn",
+      "dn",
+      "state"
+    ]
+  },
+  {
+    "class": "fvRsDomAtt",
+    "fields": [
+      "tDn",
+      "dn"
+    ]
+  },
+  {
+    "class": "infraPortTrackPol",
+    "fields": [
+      "dn",
+      "minlinks",
+      "adminSt"
+    ]
+  },
+  {
+    "class": "fabricRsTimePol",
+    "fields": [
+      "dn"
+    ]
+  },
+  {
+    "class": "datetimePol",
+    "fields": [
+      "authSt",
+      "dn",
+      "adminSt"
+    ]
+  },
+  {
+    "class": "datetimeNtpProv",
+    "fields": [
+      "dn"
+    ]
+  },
+  {
+    "class": "fcDomP",
+    "fields": [
+      "dn"
+    ]
+  },
+  {
+    "class": "vmmDomP",
+    "fields": [
+      "dn"
+    ]
+  },
+  {
+    "class": "apPlugin",
+    "fields": [
+      "dn"
+    ]
+  },
+  {
+    "class": "l3IfPol",
+    "fields": [
+      "bfdIsis",
+      "dn"
+    ]
+  },
+  {
+    "class": "fabricExplicitGEp",
+    "fields": [
+      "dn"
+    ]
+  },
+  {
+    "class": "fabricNodePEp",
+    "fields": [
+      "dn",
+      "id"
+    ]
+  },
+  {
+    "class": "epControlP",
+    "fields": [
+      "adminSt",
+      "rogueEpDetectIntvl",
+      "holdIntvl",
+      "rogueEpDetectMult",
+      "dn"
+    ]
+  },
+  {
+    "class": "fvRsCtx",
+    "fields": [
+      "tDn",
+      "dn",
+      "tnFvCtxName"
+    ]
+  },
+  {
+    "class": "fabricRsLeNodePGrp",
+    "fields": [
+      "tDn",
+      "dn"
+    ]
+  },
+  {
+    "class": "fabricRsNodeCtrl",
+    "fields": [
+      "tDn",
+      "dn"
+    ]
+  },
+  {
+    "class": "fabricNodeControl",
+    "fields": [
+      "tDn",
+      "dn",
+      "control"
+    ]
+  },
+  {
+    "class": "fabricRsSpNodePGrp",
+    "fields": [
+      "tDn",
+      "dn"
+    ]
+  },
+  {
+    "class": "configRsRemotePath",
+    "fields": [
+      "tnFileRemotePath",
+      "dn"
+    ]
+  },
+  {
+    "class": "fvcapRule",
+    "fields": [
+      "subj",
+      "dn"
+    ]
+  },
+  {
+    "class": "fvCEp",
+    "query": {
+      "rsp-subtree-include": "count"
+    },
+    "fields": [
+      "dn"
+    ]
+  },
+  {
+    "class": "vzFilter",
+    "fields": [
+      "name",
+      "dn"
+    ]
+  },
+  {
+    "class": "fabricCtrlrConfigP",
+    "fields": [
+      "infraVlan",
+      "dn"
+    ]
+  },
+  {
+    "class": "l3extInstP",
+    "fields": [
+      "dn"
+    ]
+  },
+  {
+    "class": "fvRsCons",
+    "fields": [
+      "tDn",
+      "dn"
     ]
   },
   {
@@ -270,307 +557,6 @@
     ]
   },
   {
-    "class": "fvnsVlanInstP",
-    "fields": [
-      "dn"
-    ]
-  },
-  {
-    "class": "fvnsEncapBlk",
-    "fields": [
-      "dn",
-      "from",
-      "to"
-    ]
-  },
-  {
-    "class": "infraAttEntityP",
-    "fields": [
-      "dn"
-    ]
-  },
-  {
-    "class": "fvAEPg",
-    "fields": [
-      "dn"
-    ]
-  },
-  {
-    "class": "fvRsDomAtt",
-    "fields": [
-      "tDn",
-      "dn"
-    ]
-  },
-  {
-    "class": "fvSubnet",
-    "fields": [
-      "ip",
-      "dn"
-    ]
-  },
-  {
-    "class": "l3extRsPathL3OutAtt",
-    "fields": [
-      "ifInstT",
-      "addr",
-      "encap",
-      "tDn",
-      "dn"
-    ]
-  },
-  {
-    "class": "fvcapRule",
-    "fields": [
-      "subj",
-      "dn"
-    ]
-  },
-  {
-    "class": "fvCEp",
-    "query": {
-      "rsp-subtree-include": "count"
-    },
-    "fields": [
-      "dn"
-    ]
-  },
-  {
-    "class": "fvBD",
-    "fields": [
-      "name",
-      "unkMacUcastAct",
-      "ipLearning",
-      "limitIPLearnToSubnets",
-      "dn",
-      "unicastRoute",
-      "multiDstPktAct",
-      "arpFlood"
-    ]
-  },
-  {
-    "class": "fvCtx",
-    "fields": [
-      "name",
-      "pcEnfDir",
-      "dn"
-    ]
-  },
-  {
-    "class": "fvTenant",
-    "fields": [
-      "name",
-      "dn"
-    ]
-  },
-  {
-    "class": "vzBrCP",
-    "fields": [
-      "name",
-      "dn"
-    ]
-  },
-  {
-    "class": "vzFilter",
-    "fields": [
-      "name",
-      "dn"
-    ]
-  },
-  {
-    "class": "fabricRsLeNodePGrp",
-    "fields": [
-      "tDn",
-      "dn"
-    ]
-  },
-  {
-    "class": "fabricRsNodeCtrl",
-    "fields": [
-      "tDn",
-      "dn"
-    ]
-  },
-  {
-    "class": "fabricNodeControl",
-    "fields": [
-      "tDn",
-      "control",
-      "dn"
-    ]
-  },
-  {
-    "class": "fabricRsSpNodePGrp",
-    "fields": [
-      "tDn",
-      "dn"
-    ]
-  },
-  {
-    "class": "firmwareRunning",
-    "fields": [
-      "peVer",
-      "dn"
-    ]
-  },
-  {
-    "class": "firmwareCtrlrRunning",
-    "fields": [
-      "dn",
-      "version"
-    ]
-  },
-  {
-    "class": "fvRsBd",
-    "fields": [
-      "dn"
-    ]
-  },
-  {
-    "class": "eqptSupC",
-    "fields": [
-      "dn",
-      "model"
-    ]
-  },
-  {
-    "class": "infraWiNode",
-    "fields": [
-      "dn",
-      "health"
-    ]
-  },
-  {
-    "class": "fabricHealthTotal",
-    "fields": [
-      "dn",
-      "cur"
-    ]
-  },
-  {
-    "class": "healthInst",
-    "query": {
-      "query-target-filter": "wcard(healthInst.dn,\"^sys/health$\")"
-    },
-    "fields": [
-      "dn",
-      "cur"
-    ]
-  },
-  {
-    "class": "mcpInstPol",
-    "fields": [
-      "ctrl",
-      "dn",
-      "adminSt"
-    ]
-  },
-  {
-    "class": "fabricRsTimePol",
-    "fields": [
-      "dn"
-    ]
-  },
-  {
-    "class": "datetimePol",
-    "fields": [
-      "dn",
-      "adminSt",
-      "authSt"
-    ]
-  },
-  {
-    "class": "datetimeNtpProv",
-    "fields": [
-      "dn"
-    ]
-  },
-  {
-    "class": "fabricCtrlrConfigP",
-    "fields": [
-      "dn",
-      "infraVlan"
-    ]
-  },
-  {
-    "class": "pkiExportEncryptionKey",
-    "fields": [
-      "dn",
-      "keyConfigured"
-    ]
-  },
-  {
-    "class": "l3IfPol",
-    "fields": [
-      "dn",
-      "bfdIsis"
-    ]
-  },
-  {
-    "class": "l3extInstP",
-    "fields": [
-      "dn"
-    ]
-  },
-  {
-    "class": "fvRsCons",
-    "fields": [
-      "tDn",
-      "dn"
-    ]
-  },
-  {
-    "class": "eqptFlash",
-    "fields": [
-      "dn",
-      "rev",
-      "model"
-    ]
-  },
-  {
-    "class": "fvRsCtx",
-    "fields": [
-      "tDn",
-      "dn",
-      "tnFvCtxName"
-    ]
-  },
-  {
-    "class": "l3extOut",
-    "fields": [
-      "name",
-      "dn"
-    ]
-  },
-  {
-    "class": "epLoopProtectP",
-    "fields": [
-      "loopDetectMult",
-      "loopDetectIntvl",
-      "dn",
-      "adminSt"
-    ]
-  },
-  {
-    "class": "l3extLNodeP",
-    "fields": [
-      "dn"
-    ]
-  },
-  {
-    "class": "l3extRsNodeL3OutAtt",
-    "fields": [
-      "dn"
-    ]
-  },
-  {
-    "class": "isisDomPol",
-    "fields": [
-      "dn",
-      "redistribMetric"
-    ]
-  },
-  {
     "class": "ctxClassCnt",
     "query": {
       "rsp-subtree-class": "l2BD,fvEpP,l3Dom"
@@ -582,83 +568,81 @@
   {
     "class": "eqptcapacityVlanUsage5min",
     "fields": [
-      "totalCapCum",
       "totalCum",
+      "totalCapCum",
       "dn"
     ]
   },
   {
     "class": "eqptcapacityL2Usage5min",
     "fields": [
-      "localEpAvg",
-      "localEpCapAvg",
-      "dn"
+      "dn",
+      "localEpLast"
     ]
   },
   {
     "class": "eqptcapacityL2RemoteUsage5min",
     "fields": [
-      "remoteEpAvg",
-      "remoteEpCapAvg",
+      "remoteEpLast",
       "dn"
     ]
   },
   {
     "class": "eqptcapacityL2TotalUsage5min",
     "fields": [
-      "dn",
-      "totalEpAvg",
-      "totalEpCapAvg"
+      "totalEpLast",
+      "totalEpCapLast",
+      "dn"
     ]
   },
   {
     "class": "eqptcapacityL3Usage5min",
     "fields": [
-      "v4LocalEpAvg",
+      "v4LocalEpLast",
       "dn"
-    ]
-  },
-  {
-    "class": "eqptcapacityL3UsageCap5min",
-    "fields": [
-      "dn",
-      "v4LocalEpCapAvg"
     ]
   },
   {
     "class": "eqptcapacityL3RemoteUsage5min",
     "fields": [
-      "v4RemoteEpAvg",
-      "dn"
-    ]
-  },
-  {
-    "class": "eqptcapacityL3RemoteUsageCap5min",
-    "fields": [
-      "v4RemoteEpCapAvg",
+      "v4RemoteEpLast",
       "dn"
     ]
   },
   {
     "class": "eqptcapacityL3TotalUsage5min",
     "fields": [
-      "v4TotalEpAvg",
-      "dn"
+      "dn",
+      "v4TotalEpLast"
     ]
   },
   {
     "class": "eqptcapacityL3TotalUsageCap5min",
     "fields": [
-      "v4TotalEpCapAvg",
-      "dn"
+      "dn",
+      "v4TotalEpCapLast"
     ]
   },
   {
     "class": "eqptcapacityPolUsage5min",
     "fields": [
-      "polUsageCapCum",
+      "dn",
       "polUsageCum",
-      "polUsageBase",
+      "polUsageCapCum",
+      "polUsageBase"
+    ]
+  },
+  {
+    "class": "infraWiNode",
+    "fields": [
+      "health",
+      "dn"
+    ]
+  },
+  {
+    "class": "epIpAgingP",
+    "fields": [
+      "epIpAgingP",
       "dn"
     ]
   }

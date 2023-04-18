@@ -2,35 +2,35 @@
   {
     "class": "faultInst",
     "fields": [
-      "severity",
       "descr",
-      "ack",
+      "dn",
       "code",
-      "dn"
+      "ack",
+      "severity"
     ]
   },
   {
     "class": "eqptFlash",
     "fields": [
-      "model",
+      "rev",
       "dn",
-      "rev"
+      "model"
     ]
   },
   {
     "class": "topSystem",
     "fields": [
-      "fabricId",
-      "id",
-      "serial",
       "role",
-      "fabricDomain",
-      "model",
-      "name",
+      "fabricId",
+      "dn",
+      "id",
       "oobMgmtAddr",
+      "fabricDomain",
+      "serial",
       "version",
       "podId",
-      "dn",
+      "model",
+      "name",
       "inbMgmtAddr"
     ]
   },
@@ -51,21 +51,21 @@
   {
     "class": "fabricNode",
     "fields": [
-      "model",
-      "name",
-      "id",
       "role",
-      "dn"
+      "name",
+      "dn",
+      "id",
+      "model"
     ]
   },
   {
     "class": "eqptStorage",
     "fields": [
+      "dn",
       "capUtilized",
-      "name",
       "device",
-      "mediaWearout",
-      "dn"
+      "name",
+      "mediaWearout"
     ]
   },
   {
@@ -78,25 +78,25 @@
   {
     "class": "fvCtx",
     "fields": [
-      "name",
       "pcEnfDir",
+      "name",
       "dn"
     ]
   },
   {
     "class": "fabricLink",
     "fields": [
-      "n1",
       "r1",
       "n2",
+      "n1",
       "dn"
     ]
   },
   {
     "class": "infraRsVlanNs",
     "fields": [
-      "tDn",
-      "dn"
+      "dn",
+      "tDn"
     ]
   },
   {
@@ -120,24 +120,24 @@
   {
     "class": "maintMaintGrp",
     "fields": [
-      "name",
-      "dn"
+      "dn",
+      "name"
     ]
   },
   {
     "class": "maintRsMgrpp",
     "fields": [
-      "tDn",
+      "rsmgrpp",
       "dn",
-      "rsmgrpp"
+      "tDn"
     ]
   },
   {
     "class": "maintMaintP",
     "fields": [
       "version",
-      "dn",
-      "graceful"
+      "graceful",
+      "dn"
     ]
   },
   {
@@ -165,8 +165,8 @@
   {
     "class": "fabricHealthTotal",
     "fields": [
-      "cur",
-      "dn"
+      "dn",
+      "cur"
     ]
   },
   {
@@ -175,8 +175,8 @@
       "query-target-filter": "wcard(healthInst.dn,\"^sys/health$\")"
     },
     "fields": [
-      "cur",
-      "dn"
+      "dn",
+      "cur"
     ]
   },
   {
@@ -184,49 +184,49 @@
     "fields": [
       "enforceSubnetCheck",
       "domainValidation",
-      "dn",
-      "unicastXrEpLearnDisable"
+      "unicastXrEpLearnDisable",
+      "dn"
     ]
   },
   {
     "class": "fvRsPathAtt",
     "fields": [
-      "encap",
-      "dn"
+      "dn",
+      "encap"
     ]
   },
   {
     "class": "eqptSupC",
     "fields": [
-      "model",
-      "dn"
+      "dn",
+      "model"
     ]
   },
   {
     "class": "fvTenant",
     "fields": [
-      "name",
-      "dn"
+      "dn",
+      "name"
     ]
   },
   {
     "class": "fvBD",
     "fields": [
-      "unicastRoute",
-      "name",
-      "multiDstPktAct",
       "arpFlood",
-      "limitIPLearnToSubnets",
-      "ipLearning",
+      "unicastRoute",
       "dn",
+      "limitIPLearnToSubnets",
+      "multiDstPktAct",
+      "ipLearning",
+      "name",
       "unkMacUcastAct"
     ]
   },
   {
     "class": "vzBrCP",
     "fields": [
-      "name",
-      "dn"
+      "dn",
+      "name"
     ]
   },
   {
@@ -238,24 +238,24 @@
   {
     "class": "l3extOut",
     "fields": [
-      "name",
-      "dn"
+      "dn",
+      "name"
     ]
   },
   {
     "class": "epLoopProtectP",
     "fields": [
-      "loopDetectMult",
-      "dn",
+      "loopDetectIntvl",
       "adminSt",
-      "loopDetectIntvl"
+      "dn",
+      "loopDetectMult"
     ]
   },
   {
     "class": "bgpRRNodePEp",
     "fields": [
-      "dn",
       "podId",
+      "dn",
       "id"
     ]
   },
@@ -263,9 +263,9 @@
     "class": "eqptcapacityFSPartition",
     "fields": [
       "avail",
-      "name",
       "dn",
-      "used"
+      "used",
+      "name"
     ]
   },
   {
@@ -284,11 +284,11 @@
   {
     "class": "l3extRsPathL3OutAtt",
     "fields": [
+      "addr",
       "tDn",
       "ifInstT",
-      "addr",
-      "encap",
-      "dn"
+      "dn",
+      "encap"
     ]
   },
   {
@@ -306,16 +306,16 @@
   {
     "class": "coopPol",
     "fields": [
-      "type",
-      "dn"
+      "dn",
+      "type"
     ]
   },
   {
     "class": "mcpInstPol",
     "fields": [
-      "dn",
       "ctrl",
-      "adminSt"
+      "adminSt",
+      "dn"
     ]
   },
   {
@@ -339,9 +339,9 @@
   {
     "class": "fvnsEncapBlk",
     "fields": [
-      "from",
+      "to",
       "dn",
-      "to"
+      "from"
     ]
   },
   {
@@ -354,23 +354,23 @@
     "class": "infraRsDomP",
     "fields": [
       "tDn",
-      "dn",
-      "state"
+      "state",
+      "dn"
     ]
   },
   {
     "class": "fvRsDomAtt",
     "fields": [
-      "tDn",
-      "dn"
+      "dn",
+      "tDn"
     ]
   },
   {
     "class": "infraPortTrackPol",
     "fields": [
+      "adminSt",
       "dn",
-      "minlinks",
-      "adminSt"
+      "minlinks"
     ]
   },
   {
@@ -382,9 +382,9 @@
   {
     "class": "datetimePol",
     "fields": [
-      "authSt",
+      "adminSt",
       "dn",
-      "adminSt"
+      "authSt"
     ]
   },
   {
@@ -435,10 +435,10 @@
     "class": "epControlP",
     "fields": [
       "adminSt",
-      "rogueEpDetectIntvl",
-      "holdIntvl",
       "rogueEpDetectMult",
-      "dn"
+      "dn",
+      "holdIntvl",
+      "rogueEpDetectIntvl"
     ]
   },
   {
@@ -452,23 +452,23 @@
   {
     "class": "fabricRsLeNodePGrp",
     "fields": [
-      "tDn",
-      "dn"
+      "dn",
+      "tDn"
     ]
   },
   {
     "class": "fabricRsNodeCtrl",
     "fields": [
-      "tDn",
-      "dn"
+      "dn",
+      "tDn"
     ]
   },
   {
     "class": "fabricNodeControl",
     "fields": [
-      "tDn",
+      "control",
       "dn",
-      "control"
+      "tDn"
     ]
   },
   {
@@ -504,8 +504,8 @@
   {
     "class": "vzFilter",
     "fields": [
-      "name",
-      "dn"
+      "dn",
+      "name"
     ]
   },
   {
@@ -531,8 +531,8 @@
   {
     "class": "mcpIfPol",
     "fields": [
-      "dn",
-      "adminSt"
+      "adminSt",
+      "dn"
     ]
   },
   {
@@ -590,8 +590,8 @@
   {
     "class": "eqptcapacityL2TotalUsage5min",
     "fields": [
-      "totalEpLast",
       "totalEpCapLast",
+      "totalEpLast",
       "dn"
     ]
   },
@@ -605,8 +605,8 @@
   {
     "class": "eqptcapacityL3RemoteUsage5min",
     "fields": [
-      "v4RemoteEpLast",
-      "dn"
+      "dn",
+      "v4RemoteEpLast"
     ]
   },
   {
@@ -619,31 +619,31 @@
   {
     "class": "eqptcapacityL3TotalUsageCap5min",
     "fields": [
-      "dn",
-      "v4TotalEpCapLast"
+      "v4TotalEpCapLast",
+      "dn"
     ]
   },
   {
     "class": "eqptcapacityPolUsage5min",
     "fields": [
+      "polUsageBase",
       "dn",
-      "polUsageCum",
       "polUsageCapCum",
-      "polUsageBase"
+      "polUsageCum"
     ]
   },
   {
     "class": "infraWiNode",
     "fields": [
-      "health",
-      "dn"
+      "dn",
+      "health"
     ]
   },
   {
     "class": "epIpAgingP",
     "fields": [
-      "epIpAgingP",
-      "dn"
+      "dn",
+      "epIpAgingP"
     ]
   }
 ]

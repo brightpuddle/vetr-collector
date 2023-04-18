@@ -1,12 +1,12 @@
 #!python
+import json
 import os
-
-import yaml
 
 TMP_FOLDER = "/tmp/vetr-collector"
 SCRIPT_NAME = "vetr-collector.sh"
 
-reqs = yaml.load(open("./pkg/req/reqs.yaml"), Loader=yaml.Loader)
+with open("./pkg/req/reqs.json") as f:
+    reqs = json.loads(f.read())
 
 f = open(SCRIPT_NAME, "w")
 

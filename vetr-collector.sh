@@ -46,11 +46,13 @@ icurl -kG https://localhost/api/class/coopPol.json > /tmp/vetr-collector/coopPol
 icurl -kG https://localhost/api/class/mcpInstPol.json > /tmp/vetr-collector/mcpInstPol.json
 icurl -kG https://localhost/api/class/l3extLNodeP.json > /tmp/vetr-collector/l3extLNodeP.json
 icurl -kG https://localhost/api/class/l3extRsNodeL3OutAtt.json > /tmp/vetr-collector/l3extRsNodeL3OutAtt.json
+icurl -kG https://localhost/api/class/eqptExtCh.json > /tmp/vetr-collector/eqptExtCh.json
 icurl -kG https://localhost/api/class/fvnsVlanInstP.json > /tmp/vetr-collector/fvnsVlanInstP.json
 icurl -kG https://localhost/api/class/fvnsEncapBlk.json > /tmp/vetr-collector/fvnsEncapBlk.json
 icurl -kG https://localhost/api/class/infraAttEntityP.json > /tmp/vetr-collector/infraAttEntityP.json
 icurl -kG https://localhost/api/class/infraRsDomP.json > /tmp/vetr-collector/infraRsDomP.json
 icurl -kG https://localhost/api/class/fvRsDomAtt.json > /tmp/vetr-collector/fvRsDomAtt.json
+icurl -kG https://localhost/api/class/infraRsFuncToEpg.json > /tmp/vetr-collector/infraRsFuncToEpg.json
 icurl -kG https://localhost/api/class/infraPortTrackPol.json > /tmp/vetr-collector/infraPortTrackPol.json
 icurl -kG https://localhost/api/class/fabricRsTimePol.json > /tmp/vetr-collector/fabricRsTimePol.json
 icurl -kG https://localhost/api/class/datetimePol.json > /tmp/vetr-collector/datetimePol.json

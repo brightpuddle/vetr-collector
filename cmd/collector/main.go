@@ -52,7 +52,6 @@ func main() {
 	if err != nil {
 		log.Fatal().Err(err).Msgf("Error creating archive file: %s.", args.Output)
 	}
-	defer arc.Close()
 
 	// Initiate requests
 	reqs, err := req.GetRequests()
@@ -79,7 +78,7 @@ func main() {
 		}
 		batch++
 	}
-
+	arc.Close()
 	fmt.Println(strings.Repeat("=", 30))
 	fmt.Println("Complete")
 	fmt.Println(strings.Repeat("=", 30))

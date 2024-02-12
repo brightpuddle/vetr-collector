@@ -39,6 +39,7 @@ func main() {
 		RetryDelay:        args.RetryDelay,
 		RequestRetryCount: args.RequestRetryCount,
 		BatchSize:         args.BatchSize,
+		Confirm:           args.Confirm,
 	}
 
 	// Initialize ACI HTTP client
@@ -96,5 +97,7 @@ func main() {
 		log.Info().Msg("Collection complete.")
 		log.Info().Msgf("Please provide %s to Cisco Services for further analysis.", outPath)
 	}
-	pause("Press enter to exit.")
+	if !cfg.Confirm {
+		pause("Press enter to exit.")
+	}
 }

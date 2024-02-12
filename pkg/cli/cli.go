@@ -18,6 +18,7 @@ type Config struct {
 	RetryDelay        int
 	RequestRetryCount int
 	BatchSize         int
+	Confirm           bool
 }
 
 // NewConfig populates default values

@@ -9,7 +9,7 @@ import (
 	"syscall"
 
 	"github.com/alexflint/go-arg"
-	"golang.org/x/crypto/ssh/terminal"
+	"golang.org/x/term"
 )
 
 const resultZip = "aci-vetr-data.zip"
@@ -31,6 +31,7 @@ type Args struct {
 	RequestRetryCount int    `arg:"--request-retry-count" help:"Times to retry a failed request" default:"3"`
 	RetryDelay        int    `arg:"--retry-delay"         help:"Seconds to wait before retry"    default:"10"`
 	BatchSize         int    `arg:"--batch-size"          help:"Max request to send in parallel" default:"10"`
+	Confirm           bool   `arg:"-y"                    help:"Skip confirmation"`
 }
 
 // Description is the CLI description string.
@@ -56,7 +57,7 @@ func newArgs() Args {
 	}
 	if args.Password == "" {
 		fmt.Print("Password: ")
-		pwd, _ := terminal.ReadPassword(int(syscall.Stdin))
+		pwd, _ := term.ReadPassword(int(syscall.Stdin))
 		args.Password = string(pwd)
 		fmt.Println()
 	}

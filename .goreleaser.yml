@@ -29,11 +29,6 @@ archives:
       - LICENSE
       - vetr-collector.sh
     name_template: 'vetr-collector_{{ .Version }}_{{ .Os }}'
-    replacements:
-      darwin: MacOS
-      windows: Windows
-      linux: Linux
-      amd64: 64-bit
 
 checksum:
   name_template: 'checksums.txt'

@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-	"collector"
 	"fmt"
 	"os"
 	"strings"
@@ -13,6 +12,8 @@ import (
 )
 
 const resultZip = "aci-vetr-data.zip"
+
+var version = "(dev)"
 
 // input collects CLI input.
 func input(prompt string) string {
@@ -28,9 +29,10 @@ type Args struct {
 	Username          string `arg:"-u"                    help:"APIC username"`
 	Password          string `arg:"-p"                    help:"APIC password"`
 	Output            string `arg:"-o"                    help:"Output file"`
-	RequestRetryCount int    `arg:"--request-retry-count" help:"Times to retry a failed request" default:"3"`
-	RetryDelay        int    `arg:"--retry-delay"         help:"Seconds to wait before retry"    default:"10"`
-	BatchSize         int    `arg:"--batch-size"          help:"Max request to send in parallel" default:"10"`
+	RequestRetryCount int    `arg:"--request-retry-count" help:"Times to retry a failed request"    default:"3"`
+	RetryDelay        int    `arg:"--retry-delay"         help:"Seconds to wait before retry"       default:"10"`
+	BatchSize         int    `arg:"--batch-size"          help:"Max request to send in parallel"    default:"10"`
+	PageSize          int    `arg:"--page-size"           help:"Object per page for large datasets" default:"1000"`
 	Confirm           bool   `arg:"-y"                    help:"Skip confirmation"`
 }
 
@@ -41,7 +43,7 @@ func (Args) Description() string {
 
 // Version is the CLI version string.
 func (Args) Version() string {
-	return fmt.Sprintf("version %s", collector.Version)
+	return version
 }
 
 // NewArgs collects the CLI args and creates a new 'Args'.

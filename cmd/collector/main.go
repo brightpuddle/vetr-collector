@@ -39,6 +39,7 @@ func main() {
 		RetryDelay:        args.RetryDelay,
 		RequestRetryCount: args.RequestRetryCount,
 		BatchSize:         args.BatchSize,
+		PageSize:          args.PageSize,
 		Confirm:           args.Confirm,
 	}
 
@@ -70,7 +71,7 @@ func main() {
 		for j := i; j < i+args.BatchSize && j < len(reqs); j++ {
 			req := reqs[j]
 			g.Go(func() error {
-				return cli.FetchResource(client, req, arc, cfg)
+				return cli.Fetch(client, req, arc, cfg)
 			})
 		}
 		err = g.Wait()

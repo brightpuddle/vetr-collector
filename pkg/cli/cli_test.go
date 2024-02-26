@@ -54,7 +54,7 @@ func TestFetch(t *testing.T) {
 	}
 
 	// Write zip
-	err := FetchResource(client, req, arc, NewConfig())
+	err := Fetch(client, req, arc, NewConfig())
 	a.NoError(err)
 
 	// Verify content written to mock archive

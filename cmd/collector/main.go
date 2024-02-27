@@ -61,6 +61,14 @@ func main() {
 		log.Fatal().Err(err).Msgf("Error reading requests.")
 	}
 
+	// Allow overriding in-built queries with a single class query
+	if args.Class != "" && args.Class != "all" {
+		reqs = []req.Request{{
+			Class: args.Class,
+			Query: args.Query,
+		}}
+	}
+
 	// Batch and fetch queries in parallel
 	batch := 1
 	for i := 0; i < len(reqs); i += args.BatchSize {

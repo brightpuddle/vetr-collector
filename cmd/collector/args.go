@@ -25,15 +25,17 @@ func input(prompt string) string {
 
 // Args are command line parameters.
 type Args struct {
-	APIC              string `arg:"-a"                    help:"APIC hostname or IP address"`
-	Username          string `arg:"-u"                    help:"APIC username"`
-	Password          string `arg:"-p"                    help:"APIC password"`
-	Output            string `arg:"-o"                    help:"Output file"`
-	RequestRetryCount int    `arg:"--request-retry-count" help:"Times to retry a failed request"    default:"3"`
-	RetryDelay        int    `arg:"--retry-delay"         help:"Seconds to wait before retry"       default:"10"`
-	BatchSize         int    `arg:"--batch-size"          help:"Max request to send in parallel"    default:"10"`
-	PageSize          int    `arg:"--page-size"           help:"Object per page for large datasets" default:"1000"`
-	Confirm           bool   `arg:"-y"                    help:"Skip confirmation"`
+	APIC              string            `arg:"-a"                    help:"APIC hostname or IP address"`
+	Username          string            `arg:"-u"                    help:"APIC username"`
+	Password          string            `arg:"-p"                    help:"APIC password"`
+	Output            string            `arg:"-o"                    help:"Output file"`
+	RequestRetryCount int               `arg:"--request-retry-count" help:"Times to retry a failed request"       default:"3"`
+	RetryDelay        int               `arg:"--retry-delay"         help:"Seconds to wait before retry"          default:"10"`
+	BatchSize         int               `arg:"--batch-size"          help:"Max request to send in parallel"       default:"7"`
+	PageSize          int               `arg:"--page-size"           help:"Object per page for large datasets"    default:"1000"`
+	Confirm           bool              `arg:"-y"                    help:"Skip confirmation"`
+	Class             string            `arg:"-c"                    help:"Collect a single class"                default:"all"`
+	Query             map[string]string `arg:"-q"                    help:"Query(s) to filter single class query"`
 }
 
 // Description is the CLI description string.

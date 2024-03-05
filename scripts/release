@@ -1,0 +1,12 @@
+#!/bin/bash
+
+set -e
+TAG=$(git tag -l | tail -n 1)
+
+
+echo Install local binaries for $TAG
+go install -ldflags "-X main.version=$TAG" ./...
+
+echo Building binary release for $TAG
+goreleaser release
+

@@ -79,7 +79,7 @@ challenges, e.g. a long RTT or slow response from the APIC.
 ```
 ACI vetR collector
 version ...
-Usage: collector [--apic APIC] [--username USERNAME] [--password PASSWORD] [--output OUTPUT] [--request-retry-count REQUEST-RETRY-COUNT] [--retry-delay RETRY-DELAY] [--batch-size BATCH-SIZE]
+Usage: collector [--apic APIC] [--username USERNAME] [--password PASSWORD] [--output OUTPUT] [--request-retry-count REQUEST-RETRY-COUNT] [--retry-delay RETRY-DELAY] [--batch-size BATCH-SIZE] [--page-size PAGE-SIZE] [--confirm] [--class CLASS] [--query QUERY]
 
 Options:
   --apic APIC, -a APIC   APIC hostname or IP address
@@ -94,14 +94,40 @@ Options:
   --retry-delay RETRY-DELAY
                          Seconds to wait before retry [default: 10]
   --batch-size BATCH-SIZE
-                         Max request to send in parallel [default: 10]
+                         Max request to send in parallel [default: 7]
+  --page-size PAGE-SIZE
+                         Object per page for large datasets [default: 1000]
+  --confirm, -y          Skip confirmation
+  --class CLASS, -c CLASS
+                         Collect a single class [default: all]
+  --query QUERY, -q QUERY
+                         Query(s) to filter single class query
   --help, -h             display this help and exit
   --version              display version and exit
+
 ```
 
-### IF YOU ARE FAMILIAR WITH GO - Running code directly from source
-To run the code directly from source, running these commands from the root of the repository will allow you to run the program from source. This works best if you'd like to audit the program's functionality, and is especially useful for security audits. Most users should not run the program in this way.
-```
-> go mod download
-> go run ./cmd/collector/*.go
-```
+## Performance and Troubleshooting
+
+In general the collector is expected to run very quickly and have no issues. That said, one error sometimes encountered is a class with too much data. As an example of this, suppose a fabric has a very large number of static path bindings. The collector queries objects by class, so all static path bindings will be requested in a single query, and when a response has too much data, instead of sending the response data, the APIC will respond with an error.
+
+The collector addresses this with pagination. Pagination allows querying large datasets in "pages," which are groups of that object, e.g. static path binding 1-999, then 1000-1999, and so on. The actual byte size of a "page" of data will vary, as individual object sizes vary.
+
+Reasonable defaults are provided to handle this; however, they may not work for every scenario. The two options are `--page-size` and `--batch-size`.
+
+Page size defines how many objects will be sent back in each page query, so a page size of 1000 will try to query objects in pages of 1000 and 5000 groups of 5000. A larger page size means less total queries, so may be more performance, but at some point will run over the APIC's size limits.
+
+Batch size determines how many queries are sent to the APIC before waiting for a response. The collector sends queries in parallel for faster performance; however, too many queries too quickly will be throttled and the APIC will refuse to respond. If you set `--batch-size 1` the collector will behave synchonously and wait for each query to complete before sending another. This will be slower then sending requests in parallel, but may be helpful for troubleshooting purposes.
+
+Again, these and othe configurable settings should not generally need to be modified, but may be useful in corner cases with unusually large configurations, heavily loaded APICs, etc.
+
+### Running code directly from source
+
+Static binaries are provided for convenience and are generally preferred; however, if you'd like to run the code directly from source, e.g. for security auditing, this is also an option.
+
+1. [Install Go](https://go.dev/doc/install)
+2. Clone the repo
+3. `go mod download`
+4. `go run ./cmd/collector/*.go`
+
+If on Windows, it's recommended to use Powershell or WSL to avoid issues with ANSI escape sequences and path slash direction.

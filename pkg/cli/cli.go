@@ -39,6 +39,8 @@ func NewConfig() Config {
 // GetClient creates an ACI host client
 func GetClient(cfg Config) (aci.Client, error) {
 	log := logger.Get()
+	// Sanatize username against quotes
+	cfg.Password = strings.ReplaceAll(cfg.Password, "\"", "\\\"")
 	client, err := aci.NewClient(
 		cfg.Host, cfg.Username, cfg.Password,
 		aci.RequestTimeout(600),

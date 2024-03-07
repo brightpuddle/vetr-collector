@@ -1,14 +1,13 @@
 package main
 
 import (
+	"collector/pkg/archive"
+	"collector/pkg/cli"
+	"collector/pkg/req"
 	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
-
-	"collector/pkg/archive"
-	"collector/pkg/cli"
-	"collector/pkg/req"
 
 	"github.com/aci-vetr/bats/logger"
 
@@ -18,7 +17,7 @@ import (
 var args Args
 
 func pause(msg string) {
-	fmt.Println("Press enter to exit.")
+	fmt.Println(msg)
 	var throwaway string
 	fmt.Scanln(&throwaway)
 }

@@ -3,7 +3,7 @@ package aci
 import (
 	"errors"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"testing"
 	"time"
@@ -94,7 +94,7 @@ func TestClientGet(t *testing.T) {
 		Get("/url.json").
 		Reply(200).
 		Map(func(res *http.Response) *http.Response {
-			res.Body = ioutil.NopCloser(ErrReader{})
+			res.Body = io.NopCloser(ErrReader{})
 			return res
 		})
 	_, err = client.Get("/url")
@@ -186,7 +186,7 @@ func TestClientPost(t *testing.T) {
 		Post("/url.json").
 		Reply(200).
 		Map(func(res *http.Response) *http.Response {
-			res.Body = ioutil.NopCloser(ErrReader{})
+			res.Body = io.NopCloser(ErrReader{})
 			return res
 		})
 	_, err = client.Post("/url", "{}")

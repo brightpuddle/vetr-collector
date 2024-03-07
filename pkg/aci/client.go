@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"net/http/cookiejar"
 	"strconv"
@@ -36,9 +35,9 @@ type Client struct {
 
 // NewClient creates a new ACI HTTP client.
 // Pass modifiers in to modify the behavior of the client, e.g.
-//  client, _ := NewClient("apic", "user", "password", RequestTimeout(120))
+//
+//	client, _ := NewClient("apic", "user", "password", RequestTimeout(120))
 func NewClient(url, usr, pwd string, mods ...func(*Client)) (Client, error) {
-
 	// Normalize the URL
 	if !strings.HasPrefix(url, "http://") && !strings.HasPrefix(url, "https://") {
 		url = "https://" + url
@@ -93,10 +92,10 @@ func RequestTimeout(x time.Duration) func(*Client) {
 // Do makes a request.
 // Requests for Do are built ouside of the client, e.g.
 //
-//  req := client.NewReq("GET", "/api/class/fvBD", nil)
-//  res := client.Do(req)
+//	req := client.NewReq("GET", "/api/class/fvBD", nil)
+//	res := client.Do(req)
 func (client *Client) Do(req Req) (Res, error) {
-	if req.Refresh && time.Now().Sub(client.LastRefresh) > 480*time.Second {
+	if req.Refresh && time.Since(client.LastRefresh) > 480*time.Second {
 		if err := client.Refresh(); err != nil {
 			return Res{}, err
 		}
@@ -108,7 +107,7 @@ func (client *Client) Do(req Req) (Res, error) {
 	}
 	defer httpRes.Body.Close()
 
-	body, err := ioutil.ReadAll(httpRes.Body)
+	body, err := io.ReadAll(httpRes.Body)
 	if err != nil {
 		return Res{}, errors.New("cannot decode response body")
 	}
@@ -132,19 +131,19 @@ func (client *Client) Do(req Req) (Res, error) {
 // Get makes a GET request and returns a GJSON result.
 // Results will be the raw data structure as returned by the APIC, wrapped in imdata, e.g.
 //
-//  {
-//    "imdata": [
-//      {
-//        "fvTenant": {
-//          "attributes": {
-//            "dn": "uni/tn-mytenant",
-//            "name": "mytenant",
-//          }
-//        }
-//      }
-//    ],
-//    "totalCount": "1"
-//  }
+//	{
+//	  "imdata": [
+//	    {
+//	      "fvTenant": {
+//	        "attributes": {
+//	          "dn": "uni/tn-mytenant",
+//	          "name": "mytenant",
+//	        }
+//	      }
+//	    }
+//	  ],
+//	  "totalCount": "1"
+//	}
 func (client *Client) Get(path string, mods ...func(*Req)) (Res, error) {
 	// log := logger.Get()
 	req := client.NewReq("GET", path, nil, mods...)
@@ -166,7 +165,6 @@ func (client *Client) GetWithPagination(path string, mods ...func(*Req)) (Res, e
 	mods = append(mods, Query("page-size", strconv.Itoa(pageSize)))
 	req := client.NewReq("GET", path, nil, mods...)
 	res, err := client.Do(req)
-
 	if err != nil {
 		return res, err
 	}
@@ -219,16 +217,17 @@ func (client *Client) GetWithPagination(path string, mods ...func(*Req)) (Res, e
 
 // GetClass makes a GET request by class and unwraps the results.
 // Result is removed from imdata, but still wrapped in Class.attributes, e.g.
-//  [
-//    {
-//      "fvTenant": {
-//        "attributes": {
-//          "dn": "uni/tn-mytenant",
-//          "name": "mytenant",
-//        }
-//      }
-//    }
-//  ]
+//
+//	[
+//	  {
+//	    "fvTenant": {
+//	      "attributes": {
+//	        "dn": "uni/tn-mytenant",
+//	        "name": "mytenant",
+//	      }
+//	    }
+//	  }
+//	]
 func (client *Client) GetClass(class string, mods ...func(*Req)) (Res, error) {
 	res, err := client.Get(fmt.Sprintf("/api/class/%s", class), mods...)
 	if err != nil {
@@ -239,14 +238,15 @@ func (client *Client) GetClass(class string, mods ...func(*Req)) (Res, error) {
 
 // GetDn makes a GET request by DN.
 // Result is removed from imdata and first result is removed from the list, e.g.
-//  {
-//    "fvTenant": {
-//      "attributes": {
-//        "dn": "uni/tn-mytenant",
-//        "name": "mytenant",
-//      }
-//    }
-//  }
+//
+//	{
+//	  "fvTenant": {
+//	    "attributes": {
+//	      "dn": "uni/tn-mytenant",
+//	      "name": "mytenant",
+//	    }
+//	  }
+//	}
 func (client *Client) GetDn(dn string, mods ...func(*Req)) (Res, error) {
 	res, err := client.Get(fmt.Sprintf("/api/mo/%s", dn), mods...)
 	if err != nil {

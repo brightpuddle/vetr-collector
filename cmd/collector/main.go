@@ -9,7 +9,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/aci-vetr/bats/logger"
+	"collector/pkg/logger"
 
 	"golang.org/x/sync/errgroup"
 )

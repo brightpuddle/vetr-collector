@@ -11,7 +11,7 @@ import (
 
 	"golang.org/x/sync/errgroup"
 
-	"github.com/aci-vetr/bats/logger"
+	"collector/pkg/logger"
 	"github.com/tidwall/gjson"
 )
 

@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/aci-vetr/bats/logger"
+	"collector/pkg/logger"
 	"github.com/tidwall/gjson"
 )
 

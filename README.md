@@ -6,7 +6,7 @@ This tool collects data from the APIC to be used by Cisco Services in the ACI
 Health Check.
 
 Binary releases are available
-[in the releases tab](https://github.com/aci-vetr/collector/releases/latest).
+[in the releases tab](https://github.com/brightpuddle/vetr-collector/releases/latest).
 Please always use the latest release unless you have a known requirement to use
 an earlier version.
 
@@ -34,7 +34,7 @@ interaction with the switches--all data is collected from the APIC, via the API.
 The following file can be referenced to see the class queries performed by this
 tool:
 
-https://github.com/aci-vetr/collector/blob/master/pkg/req/reqs.json
+https://github.com/brightpuddle/vetr-collector/blob/master/pkg/req/reqs.json
 
 **Note** that this file is part of the CI/CD process for this tool, so is always
 up to date with the latest query data.

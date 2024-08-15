@@ -12,6 +12,7 @@ import (
 	"golang.org/x/sync/errgroup"
 
 	"collector/pkg/logger"
+
 	"github.com/tidwall/gjson"
 )
 

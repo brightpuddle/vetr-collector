@@ -12,6 +12,7 @@ import (
 	"time"
 
 	"collector/pkg/logger"
+
 	"github.com/tidwall/gjson"
 )
 

@@ -9,7 +9,8 @@ import (
 
 // Body wraps SJSON for building JSON body strings.
 // Usage example:
-//  Body{}.Set("fvTenant.attributes.name", "mytenant").Str
+//
+//	Body{}.Set("fvTenant.attributes.name", "mytenant").Str
 type Body struct {
 	Str string
 }
@@ -23,7 +24,8 @@ func (body Body) Set(path, value string) Body {
 
 // SetRaw sets a JSON path to a raw string value.
 // This is primarily used for building up nested structures, e.g.:
-//  Body{}.SetRaw("fvTenant.attributes", Body{}.Set("name", "mytenant").Str).Str
+//
+//	Body{}.SetRaw("fvTenant.attributes", Body{}.Set("name", "mytenant").Str).Str
 func (body Body) SetRaw(path, rawValue string) Body {
 	res, _ := sjson.SetRaw(body.Str, path, rawValue)
 	body.Str = res
@@ -51,11 +53,14 @@ func NoRefresh(req *Req) {
 }
 
 // Query sets an HTTP query parameter.
+//
 //	client.GetClass("fvBD", aci.Query("query-target-filter", `eq(fvBD.name,"bd-name")`))
+//
 // Or set multiple parameters:
-//  client.GetClass("fvBD",
-//    aci.Query("rsp-subtree-include", "faults"),
-//    aci.Query("query-target-filter", `eq(fvBD.name,"bd-name")`))
+//
+//	client.GetClass("fvBD",
+//	  aci.Query("rsp-subtree-include", "faults"),
+//	  aci.Query("query-target-filter", `eq(fvBD.name,"bd-name")`))
 func Query(k, v string) func(req *Req) {
 	return func(req *Req) {
 		q := req.HTTPReq.URL.Query()

@@ -1,13 +1,14 @@
 package main
 
 import (
-	"collector/pkg/archive"
-	"collector/pkg/cli"
-	"collector/pkg/req"
 	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
+
+	"collector/pkg/archive"
+	"collector/pkg/cli"
+	"collector/pkg/req"
 
 	"collector/pkg/logger"
 

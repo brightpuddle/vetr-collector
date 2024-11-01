@@ -1,13 +1,14 @@
 package cli
 
 import (
-	"collector/pkg/aci"
-	"collector/pkg/archive"
-	"collector/pkg/req"
 	"fmt"
 	"strconv"
 	"strings"
 	"time"
+
+	"collector/pkg/aci"
+	"collector/pkg/archive"
+	"collector/pkg/req"
 
 	"golang.org/x/sync/errgroup"
 

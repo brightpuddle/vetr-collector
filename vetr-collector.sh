@@ -104,5 +104,5 @@ zip -mj ~/aci-vetr-data.zip /tmp/vetr-collector/*.json
 rm -rf /tmp/vetr-collector
 
 echo Collection complete
-Output writen to ~/aci-vetr-data.zip, i.e. user home folder
+# Output writen to ~/aci-vetr-data.zip, i.e. user home folder
 echo Please provide aci-vetr-data.zip to Cisco for analysis.

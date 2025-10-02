@@ -49,7 +49,7 @@ f.writelines(
         "rm -rf %s\n" % TMP_FOLDER,
         "\n",
         "echo Collection complete\n",
-        "Output writen to ~/aci-vetr-data.zip, i.e. user home folder\n",
+        "echo Output writen to ~/aci-vetr-data.zip, i.e. user home folder\n",
         "echo Please provide aci-vetr-data.zip to Cisco for analysis.\n",
     ]
 )

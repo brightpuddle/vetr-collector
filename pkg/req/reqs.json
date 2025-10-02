@@ -683,5 +683,48 @@
       "epIpAgingP",
       "dn"
     ]
+  },
+  {
+    "class": "eqptFt",
+    "fields": [
+      "dn",
+      "model"
+    ]
+  },
+  {
+    "class": "eqptFC",
+    "fields": [
+      "dn",
+      "model"
+    ]
+  },
+  {
+    "class": "eqptSubC",
+    "fields": [
+      "dn",
+      "model"
+    ]
+  },
+  {
+    "class": "eqptPsu",
+    "fields": [
+      "dn",
+      "model"
+    ]
+  },
+  {
+    "class": "eqptLC",
+    "fields": [
+      "dn",
+      "model"
+    ]
+  },
+  {
+    "class": "eqptSysC",
+    "fields": [
+      "dn",
+      "model"
+    ]
   }
 ]
+

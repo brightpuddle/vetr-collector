@@ -95,6 +95,12 @@ icurl -kG https://localhost/api/class/eqptcapacityL3TotalUsageCap5min.json > /tm
 icurl -kG https://localhost/api/class/eqptcapacityPolUsage5min.json > /tmp/vetr-collector/eqptcapacityPolUsage5min.json
 icurl -kG https://localhost/api/class/infraWiNode.json > /tmp/vetr-collector/infraWiNode.json
 icurl -kG https://localhost/api/class/epIpAgingP.json > /tmp/vetr-collector/epIpAgingP.json
+icurl -kG https://localhost/api/class/eqptFt.json > /tmp/vetr-collector/eqptFt.json
+icurl -kG https://localhost/api/class/eqptFC.json > /tmp/vetr-collector/eqptFC.json
+icurl -kG https://localhost/api/class/eqptSubC.json > /tmp/vetr-collector/eqptSubC.json
+icurl -kG https://localhost/api/class/eqptPsu.json > /tmp/vetr-collector/eqptPsu.json
+icurl -kG https://localhost/api/class/eqptLC.json > /tmp/vetr-collector/eqptLC.json
+icurl -kG https://localhost/api/class/eqptSysC.json > /tmp/vetr-collector/eqptSysC.json
 
 # Zip result
 zip -mj ~/aci-vetr-data.zip /tmp/vetr-collector/*.json

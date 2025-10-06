@@ -699,7 +699,7 @@
     ]
   },
   {
-    "class": "eqptSubC",
+    "class": "eqptSupC",
     "fields": [
       "dn",
       "model"
@@ -727,4 +727,3 @@
     ]
   }
 ]
-

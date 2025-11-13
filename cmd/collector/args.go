@@ -65,6 +65,5 @@ func newArgs() Args {
 		args.Password = string(pwd)
 		fmt.Println()
 	}
-	fmt.Println(args.Password)
 	return args
 }

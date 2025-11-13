@@ -18,6 +18,11 @@ builds:
       - windows_amd64_v1
       - linux_amd64_v1
       - darwin_arm64
+    env:
+      - CGO_ENABLED=0
+    tags:
+      - netgo
+      - static_build
 
 archives:
   - id: collector

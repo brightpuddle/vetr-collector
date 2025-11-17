@@ -146,7 +146,7 @@ func (client *Client) Do(req Req) (Res, error) {
 //	  "totalCount": "1"
 //	}
 func (client *Client) Get(path string, mods ...func(*Req)) (Res, error) {
-	// log := logger.Get()
+	// log := log
 	req := client.NewReq("GET", path, nil, mods...)
 	res, err := client.Do(req)
 	// FIXME this is currently hanging. Disabling until it can be fixed
@@ -159,7 +159,7 @@ func (client *Client) Get(path string, mods ...func(*Req)) (Res, error) {
 
 // GetWithPagination performs a get request with pagination
 func (client *Client) GetWithPagination(path string, mods ...func(*Req)) (Res, error) {
-	log := logger.Get()
+	log := log
 	pageSize := 10
 	pageNumber := 0
 	mods = append(mods, Query("page", strconv.Itoa(pageNumber)))

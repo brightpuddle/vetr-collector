@@ -40,7 +40,7 @@ func NewConfig() Config {
 
 // GetClient creates an ACI host client
 func GetClient(cfg Config) (aci.Client, error) {
-	log := logger.Get()
+	log := log
 	// Sanatize username against quotes
 	cfg.Password = strings.ReplaceAll(cfg.Password, "\"", "\\\"")
 	client, err := aci.NewClient(
@@ -67,7 +67,7 @@ func fetchWithRetry(
 	cfg Config,
 	mods []func(*aci.Req),
 ) (gjson.Result, error) {
-	log := logger.Get()
+	log := log
 	res, err := client.Get(path, mods...)
 	if err != nil && err.Error() == "result dataset is too big" {
 		return res, err
@@ -89,7 +89,7 @@ func fetchWithRetry(
 // Fetch fetches data via API and writes it to the provided archive.
 func Fetch(client aci.Client, req req.Request, arc archive.Writer, cfg Config) error {
 	path := "/api/class/" + req.Class
-	log := logger.Get()
+	log := log
 	startTime := time.Now()
 	log.Debug().Time("start_time", startTime).Msgf("begin: %s", req.Class)
 
@@ -127,7 +127,7 @@ func paginate(
 	mods []func(*aci.Req),
 ) error {
 	path := "/api/class/" + req.Class
-	log := logger.Get()
+	log := log
 	log.Info().Msgf("fetching large dataset for %s...", req.Class)
 	mods = append(mods, aci.Query("page-size", strconv.Itoa(cfg.PageSize)))
 

@@ -8,9 +8,8 @@ import (
 
 	"collector/pkg/archive"
 	"collector/pkg/cli"
+	"collector/pkg/log"
 	"collector/pkg/req"
-
-	"collector/pkg/logger"
 
 	"golang.org/x/sync/errgroup"
 )
@@ -24,16 +23,9 @@ func pause(msg string) {
 }
 
 func main() {
-	log, err := logger.New(logger.Config{
-		Filename:     "collector.log",
-		ConsoleLevel: logger.InfoLevel,
-	})
-	if err != nil {
-		panic(err)
-	}
 	args = newArgs()
 	cfg := cli.Config{
-		Host:              args.APIC,
+		Host:              args.URL,
 		Username:          args.Username,
 		Password:          args.Password,
 		RetryDelay:        args.RetryDelay,
@@ -88,6 +80,7 @@ func main() {
 		}
 		batch++
 	}
+
 	arc.Close()
 	fmt.Println(strings.Repeat("=", 30))
 	fmt.Println("Complete")

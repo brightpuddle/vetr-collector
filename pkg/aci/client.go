@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	"collector/pkg/logger"
+	"collector/pkg/log"
 
 	"github.com/tidwall/gjson"
 )
@@ -159,7 +159,6 @@ func (client *Client) Get(path string, mods ...func(*Req)) (Res, error) {
 
 // GetWithPagination performs a get request with pagination
 func (client *Client) GetWithPagination(path string, mods ...func(*Req)) (Res, error) {
-	log := log
 	pageSize := 10
 	pageNumber := 0
 	mods = append(mods, Query("page", strconv.Itoa(pageNumber)))

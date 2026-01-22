@@ -725,5 +725,13 @@
       "dn",
       "model"
     ]
+  },
+  {
+    "class": "cdpAdjEp",
+    "fields": []
+  },
+  {
+    "class": "lldpAdjEp",
+    "fields": []
   }
 ]

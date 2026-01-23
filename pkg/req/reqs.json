@@ -217,13 +217,6 @@
     ]
   },
   {
-    "class": "eqptSupC",
-    "fields": [
-      "dn",
-      "model"
-    ]
-  },
-  {
     "class": "fvTenant",
     "fields": [
       "dn",

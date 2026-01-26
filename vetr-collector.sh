@@ -31,7 +31,6 @@ icurl -kG https://localhost/api/class/fabricHealthTotal.json > /tmp/vetr-collect
 icurl -kG https://localhost/api/class/healthInst.json -d 'query-target-filter=wcard(healthInst.dn,"^sys/health$")' > /tmp/vetr-collector/healthInst.json
 icurl -kG https://localhost/api/class/infraSetPol.json > /tmp/vetr-collector/infraSetPol.json
 icurl -kG https://localhost/api/class/fvRsPathAtt.json > /tmp/vetr-collector/fvRsPathAtt.json
-icurl -kG https://localhost/api/class/eqptSupC.json > /tmp/vetr-collector/eqptSupC.json
 icurl -kG https://localhost/api/class/fvTenant.json > /tmp/vetr-collector/fvTenant.json
 icurl -kG https://localhost/api/class/fvBD.json > /tmp/vetr-collector/fvBD.json
 icurl -kG https://localhost/api/class/vzBrCP.json > /tmp/vetr-collector/vzBrCP.json
@@ -101,6 +100,8 @@ icurl -kG https://localhost/api/class/eqptSupC.json > /tmp/vetr-collector/eqptSu
 icurl -kG https://localhost/api/class/eqptPsu.json > /tmp/vetr-collector/eqptPsu.json
 icurl -kG https://localhost/api/class/eqptLC.json > /tmp/vetr-collector/eqptLC.json
 icurl -kG https://localhost/api/class/eqptSysC.json > /tmp/vetr-collector/eqptSysC.json
+icurl -kG https://localhost/api/class/cdpAdjEp.json > /tmp/vetr-collector/cdpAdjEp.json
+icurl -kG https://localhost/api/class/lldpAdjEp.json > /tmp/vetr-collector/lldpAdjEp.json
 
 # Zip result
 zip -mj ~/aci-vetr-data.zip /tmp/vetr-collector/*.json

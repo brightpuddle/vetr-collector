@@ -8,7 +8,6 @@ before:
     - rm -rf dist
     - go mod tidy
     - go generate ./...
-    - python make_script.py
 
 builds:
   - id: collector
@@ -30,3 +29,4 @@ archives:
     files:
       - README.md
       - LICENSE
+      - vetr-collector.sh

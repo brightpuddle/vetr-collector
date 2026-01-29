@@ -22,7 +22,7 @@ The tool collects data from a number of endpoints on the APIC for configuration,
 
 The following file can be referenced to see the class queries performed by this tool:
 
-https://github.com/brightpuddle/vetr-collector/blob/master/pkg/req/reqs.json
+https://github.com/brightpuddle/vetr-collector/blob/master/pkg/req/requests.go
 
 **Note** that this file is part of the CI/CD process for this tool, so is always up to date with the latest query data.
 

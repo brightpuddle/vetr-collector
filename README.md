@@ -46,21 +46,111 @@ Usage
 
 All command line parameters are optional; the tool will prompt for any missing information. Use the `--help` option to see this output from the CLI.
 
-**Note** that only `apic`, `username`, and `password` are typically required. The remainder of the options exist to work around uncommon connectivity challenges, e.g. a long RTT or slow response from the APIC.
+**Note** that only `url`, `username`, and `password` are typically required. The remainder of the options exist to work around uncommon connectivity challenges, e.g. a long RTT or slow response from the APIC.
+
+## Single Fabric Mode (CLI)
+
+The traditional CLI mode allows collecting from a single fabric:
+
+```bash
+./collector --url 10.1.1.1 --username admin --password cisco123
+```
+
+## Multi-Fabric Mode (Config File)
+
+For collecting from multiple fabrics in parallel, use a YAML configuration file:
+
+```bash
+./collector --config fabrics.yaml
+```
+
+Example configuration file:
+
+```yaml
+global:
+  username: admin
+  password: cisco123
+  confirm: true
+
+fabrics:
+  - name: production
+    url: 10.1.1.1
+  - name: staging
+    url: 10.2.2.2
+    username: staging-user
+    password: staging-pass
+  - name: development
+    url: 10.3.3.3
+```
+
+### Config File Features
+
+- **Parallel Collection**: All fabrics are collected simultaneously using goroutines
+- **Global Settings**: Define common settings once in the `global` section
+- **Per-Fabric Overrides**: Override any global setting per fabric
+- **Flexible Naming**: 
+  - If `name` is specified, output is `{name}.zip`
+  - If no `name`, output is `{url}.zip`
+- **Fabric Context in Logs**: Each log message includes the fabric name for easy tracking
+- **Validation**: Ensures fabric names/URLs are unique and required fields are present
+
+### Supported Global/Fabric Settings
+
+All CLI parameters can be used in the config file:
+- `username` - APIC username
+- `password` - APIC password
+- `request_retry_count` - Times to retry failed requests (default: 3)
+- `retry_delay` - Seconds to wait before retry (default: 10)
+- `batch_size` - Max parallel requests (default: 7)
+- `page_size` - Objects per page for large datasets (default: 1000)
+- `confirm` - Skip confirmation prompts (default: false)
+- `verbose` - Enable debug level logging (default: false)
+- `class` - Collect single class (default: all)
+- `query` - Query filters for single class
+
+**Note**: `url` must be specified per fabric and is not supported as a global setting.
+
+## Verbose Logging
+
+Enable debug-level logging for detailed progress:
+
+```bash
+# Single fabric mode
+./collector --url 10.1.1.1 --username admin --password cisco123 --verbose
+
+# Multi-fabric mode
+./collector --config fabrics.yaml --verbose
+
+# Or set in config file
+global:
+  verbose: true
+```
+
+Debug logging shows:
+- Individual query start/end times
+- Detailed fetch progress for each class
+- Fine-grained timing information
+
+Standard Info logging shows:
+- Batch completion messages
+- Authentication status
+- Major collection milestones
+
+## Command Line Options
 
 ```
 ACI vetR collector
 version ...
-Usage: collector [--apic APIC] [--username USERNAME] [--password PASSWORD] [--output OUTPUT] [--request-retry-count REQUEST-RETRY-COUNT] [--retry-delay RETRY-DELAY] [--batch-size BATCH-SIZE] [--page-size PAGE-SIZE] [--confirm] [--class CLASS] [--query QUERY]
+Usage: collector [--url URL] [--username USERNAME] [--password PASSWORD] [--output OUTPUT] [--config CONFIG] [--request-retry-count REQUEST-RETRY-COUNT] [--retry-delay RETRY-DELAY] [--batch-size BATCH-SIZE] [--page-size PAGE-SIZE] [--confirm] [--verbose] [--class CLASS] [--query QUERY]
 
 Options:
-  --apic APIC, -a APIC   APIC hostname or IP address
-  --username USERNAME, -u USERNAME
-                         APIC username
-  --password PASSWORD, -p PASSWORD
-                         APIC password
+  --url URL              APIC hostname or IP address [env: ACI_URL]
+  --username USERNAME    APIC username [env: ACI_USERNAME]
+  --password PASSWORD    APIC password [env: ACI_PASSWORD]
   --output OUTPUT, -o OUTPUT
                          Output file [default: aci-vetr-data.zip]
+  --config CONFIG, -c CONFIG
+                         Path to YAML configuration file
   --request-retry-count REQUEST-RETRY-COUNT
                          Times to retry a failed request [default: 3]
   --retry-delay RETRY-DELAY
@@ -70,13 +160,12 @@ Options:
   --page-size PAGE-SIZE
                          Object per page for large datasets [default: 1000]
   --confirm, -y          Skip confirmation
-  --class CLASS, -c CLASS
-                         Collect a single class [default: all]
+  --verbose, -v          Enable verbose (debug level) logging
+  --class CLASS          Collect a single class [default: all]
   --query QUERY, -q QUERY
                          Query(s) to filter single class query
   --help, -h             display this help and exit
   --version              display version and exit
-
 ```
 
 Performance and Troubleshooting

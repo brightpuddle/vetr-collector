@@ -84,12 +84,12 @@ func runSingleFabric() {
 	}
 
 	// Batch and fetch queries in parallel
-	collectFabric(client, arc, reqs, cfg)
+	collectErr := collectFabric(client, arc, reqs, cfg)
 
 	arc.Close()
-	log.Info().Msg(fmt.Sprintf("%s", "=============================="))
+	log.Info().Msg("==============================")
 	log.Info().Msg("Complete")
-	log.Info().Msg(fmt.Sprintf("%s", "=============================="))
+	log.Info().Msg("==============================")
 
 	path, err := os.Getwd()
 	if err != nil {
@@ -97,9 +97,9 @@ func runSingleFabric() {
 	}
 	outPath := filepath.Join(path, args.Output)
 
-	if err != nil {
-		log.Warn().Err(err).Msg("some data could not be fetched")
-		log.Info().Err(err).Msgf("Available data written to %s.", outPath)
+	if collectErr != nil {
+		log.Warn().Err(collectErr).Msg("some data could not be fetched")
+		log.Info().Msgf("Available data written to %s.", outPath)
 	} else {
 		log.Info().Msg("Collection complete.")
 		log.Info().Msgf("Please provide %s to Cisco Services for further analysis.", outPath)
@@ -142,11 +142,6 @@ func runMultiFabric() {
 func collectSingleFabric(fabric config.FabricConfig) error {
 	fabricName := fabric.GetFabricName()
 	outputFile := fabric.GetOutputFileName()
-
-	// Set log level for this fabric if verbose is set
-	if fabric.GetVerbose() {
-		log.SetLevel(zerolog.DebugLevel)
-	}
 
 	logger := log.WithFabric(fabricName)
 	logger.Info().Msgf("Starting collection for fabric: %s", fabricName)
@@ -192,7 +187,7 @@ func collectSingleFabric(fabric config.FabricConfig) error {
 	}
 
 	// Batch and fetch queries in parallel
-	collectFabric(client, arc, reqs, cliCfg)
+	collectErr := collectFabric(client, arc, reqs, cliCfg)
 
 	path, err := os.Getwd()
 	if err != nil {
@@ -200,11 +195,15 @@ func collectSingleFabric(fabric config.FabricConfig) error {
 	}
 	outPath := filepath.Join(path, outputFile)
 
+	if collectErr != nil {
+		logger.Warn().Err(collectErr).Msgf("Some data could not be fetched for %s", fabricName)
+	}
+
 	logger.Info().Msgf("Collection complete for %s. Output: %s", fabricName, outPath)
-	return nil
+	return collectErr
 }
 
-func collectFabric(client aci.Client, arc archive.Writer, reqs []req.Request, cfg cli.Config) {
+func collectFabric(client aci.Client, arc archive.Writer, reqs []req.Request, cfg cli.Config) error {
 	var logger log.Logger
 	if cfg.FabricName != "" {
 		logger = log.WithFabric(cfg.FabricName)
@@ -213,11 +212,12 @@ func collectFabric(client aci.Client, arc archive.Writer, reqs []req.Request, cf
 	}
 
 	batch := 1
+	var firstErr error
 	for i := 0; i < len(reqs); i += cfg.BatchSize {
 		var g errgroup.Group
-		logger.Info().Msg(fmt.Sprintf("%s", "=============================="))
+		logger.Info().Msg("==============================")
 		logger.Info().Msgf("Fetching request batch %d", batch)
-		logger.Info().Msg(fmt.Sprintf("%s", "=============================="))
+		logger.Info().Msg("==============================")
 		for j := i; j < i+cfg.BatchSize && j < len(reqs); j++ {
 			req := reqs[j]
 			g.Go(func() error {
@@ -227,7 +227,11 @@ func collectFabric(client aci.Client, arc archive.Writer, reqs []req.Request, cf
 		err := g.Wait()
 		if err != nil {
 			logger.Error().Err(err).Msg("Error fetching data.")
+			if firstErr == nil {
+				firstErr = err
+			}
 		}
 		batch++
 	}
+	return firstErr
 }

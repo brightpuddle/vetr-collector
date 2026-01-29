@@ -17,7 +17,7 @@ import (
 	"github.com/tidwall/gjson"
 )
 
-// Config is CLI conifg
+// Config is CLI config
 type Config struct {
 	Host              string
 	Username          string
@@ -28,6 +28,14 @@ type Config struct {
 	PageSize          int
 	Confirm           bool
 	FabricName        string // Name of the fabric being queried
+}
+
+// getLogger returns a logger with fabric context if FabricName is set
+func (c Config) getLogger() log.Logger {
+	if c.FabricName != "" {
+		return log.WithFabric(c.FabricName)
+	}
+	return log.New()
 }
 
 // NewConfig populates default values
@@ -52,12 +60,7 @@ func GetClient(cfg Config) (aci.Client, error) {
 	}
 
 	// Get logger with fabric context
-	var logger log.Logger
-	if cfg.FabricName != "" {
-		logger = log.WithFabric(cfg.FabricName)
-	} else {
-		logger = log.New()
-	}
+	logger := cfg.getLogger()
 
 	// Authenticate
 	logger.Info().Str("host", cfg.Host).Msg("APIC host")
@@ -81,12 +84,7 @@ func fetchWithRetry(
 	}
 
 	// Get logger with fabric context
-	var logger log.Logger
-	if cfg.FabricName != "" {
-		logger = log.WithFabric(cfg.FabricName)
-	} else {
-		logger = log.New()
-	}
+	logger := cfg.getLogger()
 
 	// Retry for requestRetryCount times
 	for retries := 0; err != nil && retries < cfg.RequestRetryCount; retries++ {
@@ -107,12 +105,7 @@ func Fetch(client aci.Client, req req.Request, arc archive.Writer, cfg Config) e
 	startTime := time.Now()
 
 	// Get logger with fabric context
-	var logger log.Logger
-	if cfg.FabricName != "" {
-		logger = log.WithFabric(cfg.FabricName)
-	} else {
-		logger = log.New()
-	}
+	logger := cfg.getLogger()
 
 	logger.Debug().Time("start_time", startTime).Msgf("begin: %s", req.Class)
 	logger.Debug().Msgf("fetching %s...", req.Class)
@@ -151,12 +144,7 @@ func paginate(
 	path := "/api/class/" + req.Class
 
 	// Get logger with fabric context
-	var logger log.Logger
-	if cfg.FabricName != "" {
-		logger = log.WithFabric(cfg.FabricName)
-	} else {
-		logger = log.New()
-	}
+	logger := cfg.getLogger()
 
 	logger.Info().Msgf("fetching large dataset for %s...", req.Class)
 	mods = append(mods, aci.Query("page-size", strconv.Itoa(cfg.PageSize)))
@@ -182,12 +170,7 @@ func paginate(
 			page := j
 			g.Go(func() error {
 				// Get logger with fabric context for goroutine
-				var pageLogger log.Logger
-				if cfg.FabricName != "" {
-					pageLogger = log.WithFabric(cfg.FabricName)
-				} else {
-					pageLogger = log.New()
-				}
+				pageLogger := cfg.getLogger()
 
 				pageLogger.Info().Msgf("fetching page %d of %d for %s...", page, pages, req.Class)
 				mods := append(mods, aci.Query("page", strconv.Itoa(page)))

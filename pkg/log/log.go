@@ -51,8 +51,18 @@ func New() Logger {
 }
 
 func init() {
-	// defaults
-	zerolog.SetGlobalLevel(zerolog.DebugLevel)
+	// defaults to Info level
+	zerolog.SetGlobalLevel(zerolog.InfoLevel)
 	zerolog.ErrorStackMarshaler = pkgerrors.MarshalStack
 	zerolog.DurationFieldInteger = true
+}
+
+// SetLevel sets the global log level.
+func SetLevel(level zerolog.Level) {
+	zerolog.SetGlobalLevel(level)
+}
+
+// WithFabric returns a logger with fabric context.
+func WithFabric(fabricName string) Logger {
+	return logger.With().Str("fabric", fabricName).Logger()
 }

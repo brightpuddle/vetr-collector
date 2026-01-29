@@ -29,12 +29,14 @@ type Args struct {
 	Username          string            `arg:"--username,env:ACI_USERNAME" help:"APIC username"`
 	Password          string            `arg:"--password,env:ACI_PASSWORD" help:"APIC password"`
 	Output            string            `arg:"-o" help:"Output file"`
+	ConfigFile        string            `arg:"-c,--config" help:"Path to YAML configuration file"`
 	RequestRetryCount int               `arg:"--request-retry-count" help:"Times to retry a failed request" default:"3"`
 	RetryDelay        int               `arg:"--retry-delay" help:"Seconds to wait before retry" default:"10"`
 	BatchSize         int               `arg:"--batch-size" help:"Max request to send in parallel" default:"7"`
 	PageSize          int               `arg:"--page-size" help:"Object per page for large datasets" default:"1000"`
 	Confirm           bool              `arg:"-y" help:"Skip confirmation"`
-	Class             string            `arg:"-c" help:"Collect a single class" default:"all"`
+	Verbose           bool              `arg:"-v,--verbose" help:"Enable verbose (debug level) logging"`
+	Class             string            `arg:"--class" help:"Collect a single class" default:"all"`
 	Query             map[string]string `arg:"-q" help:"Query(s) to filter single class query"`
 }
 

@@ -9,7 +9,7 @@ Purpose
 
 This tool performs data collection for the ACI health check. This tool can be run from any computer with access to the APIC, including the APIC itself.
 
-Once the collection is complete, the tool will create an `aci-vetr-data.zip` file. This file should be provided to the Cisco Services ACI consulting engineer for further analysis.
+Once the collection is complete, the tool will create an `aci-vetr-data.zip` file in single-fabric mode. In multi-fabric mode, the tool produces one zip per fabric and an aggregate `aci-collection.zip` that contains all fabric archives. These files should be provided to the Cisco Services ACI consulting engineer for further analysis.
 
 Note that in addition to Cisco Services analysis, this file can also be read by open source third party tools to review the configuration directly. See the [Third Party Tooling](#third-party-tooling) section for more details.
 
@@ -83,6 +83,8 @@ fabrics:
     url: 10.3.3.3
 ```
 
+  For a fully documented example with comments for every option, see [config-example.yaml](config-example.yaml).
+
 ### Config File Features
 
 - **Parallel Collection**: All fabrics are collected simultaneously using goroutines
@@ -91,6 +93,7 @@ fabrics:
 - **Flexible Naming**: 
   - If `name` is specified, output is `{name}.zip`
   - If no `name`, output is `{url}.zip`
+- **Aggregate Archive**: After collecting all fabrics, the tool creates `aci-collection.zip` containing all per-fabric zip files
 - **Fabric Context in Logs**: Each log message includes the fabric name for easy tracking
 - **Validation**: Ensures fabric names/URLs are unique and required fields are present
 

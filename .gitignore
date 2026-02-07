@@ -10,6 +10,9 @@
 # Binary
 /collector
 /collector.exe
+/aci-collector
+/aci-collector.exe
+/config.yaml
 
 # OS files
 .DS_Store

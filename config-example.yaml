@@ -1,0 +1,71 @@
+# Example multi-fabric configuration for the ACI vetR collector.
+#
+# Structure:
+# - global: default settings applied to all fabrics unless overridden
+# - fabrics: list of fabrics (each can override any global setting)
+#
+# Prompting rules:
+# - If no usernames are provided anywhere, the collector prompts once for a
+#   global username/password that applies to all fabrics.
+# - If usernames are provided, the collector prompts for passwords only once
+#   per unique username (then reuses that password across fabrics).
+# - If a URL is missing for a fabric, the collector will prompt for it.
+#
+# NOTE: Values shown below are examples. Remove or replace as needed.
+
+# Global defaults (apply to all fabrics unless overridden below).
+global:
+  # Default APIC username. If omitted, you will be prompted.
+  username: ""
+
+  # Default APIC password. If omitted, you will be prompted.
+  password: ""
+
+  # Retry failed requests this many times. (default: 3)
+  request_retry_count: 3
+
+  # Seconds to wait before retrying a failed request. (default: 10)
+  retry_delay: 10
+
+  # Max number of concurrent API requests. (default: 7)
+  batch_size: 7
+
+  # Page size for large datasets. (default: 1000)
+  page_size: 1000
+
+  # Skip the "press enter to exit" prompt. (default: false)
+  confirm: false
+
+  # Enable debug-level logging. (default: false)
+  verbose: false
+
+  # Collect a single class only. (default: all)
+  class: "all"
+
+  # Query filters for single-class collection.
+  # Example:
+  # query:
+  #   query-target-filter: "wcard(fvTenant.dn,\"^uni/tn-\")"
+  query: {}
+
+# Per-fabric configuration. Each fabric can override any global setting.
+fabrics:
+  # Example fabric using defaults from global.
+  - name: "fabric-1" # Optional display name; used for output filename
+    url: "10.0.0.1" # APIC hostname or IP address
+
+  # Example fabric overriding username and output filename.
+  - name: "fabric-2"
+    url: "10.0.0.2"
+    username: "staging-user"
+    password: "" # If omitted, you will be prompted once per username
+    output: "fabric-2.zip" # Optional; default is "{name}.zip" or "{url}.zip"
+
+  # Example fabric overriding performance settings.
+  - name: "fabric-3"
+    url: "10.0.0.3"
+    request_retry_count: 5
+    retry_delay: 15
+    batch_size: 10
+    page_size: 2000
+    verbose: true

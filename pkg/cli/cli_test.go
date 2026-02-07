@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"collector/pkg/aci"
+	"collector/pkg/config"
 	"collector/pkg/req"
 
 	"github.com/stretchr/testify/assert"
@@ -54,7 +55,7 @@ func TestFetch(t *testing.T) {
 	}
 
 	// Write zip
-	err := Fetch(client, req, arc, NewConfig())
+	err := Fetch(client, req, arc, config.FabricConfig{})
 	a.NoError(err)
 
 	// Verify content written to mock archive

@@ -8,6 +8,7 @@ import (
 
 	"collector/pkg/aci"
 	"collector/pkg/archive"
+	"collector/pkg/config"
 	"collector/pkg/req"
 
 	"golang.org/x/sync/errgroup"
@@ -17,42 +18,20 @@ import (
 	"github.com/tidwall/gjson"
 )
 
-// Config is CLI config
-type Config struct {
-	Host              string
-	Username          string
-	Password          string
-	RetryDelay        int
-	RequestRetryCount int
-	BatchSize         int
-	PageSize          int
-	Confirm           bool
-	FabricName        string // Name of the fabric being queried
-}
-
-// getLogger returns a logger with fabric context if FabricName is set
-func (c Config) getLogger() log.Logger {
-	if c.FabricName != "" {
-		return log.WithFabric(c.FabricName)
+// getLogger returns a logger with fabric context if a fabric name is set.
+func getLogger(cfg config.FabricConfig) log.Logger {
+	if cfg.GetFabricName() != "" {
+		return log.WithFabric(cfg.GetFabricName())
 	}
 	return log.New()
 }
 
-// NewConfig populates default values
-func NewConfig() Config {
-	return Config{
-		RequestRetryCount: 3,
-		RetryDelay:        10,
-		BatchSize:         10,
-	}
-}
-
 // GetClient creates an ACI host client
-func GetClient(cfg Config) (aci.Client, error) {
+func GetClient(cfg config.FabricConfig) (aci.Client, error) {
 	// Sanatize username against quotes
 	cfg.Password = strings.ReplaceAll(cfg.Password, "\"", "\\\"")
 	client, err := aci.NewClient(
-		cfg.Host, cfg.Username, cfg.Password,
+		cfg.URL, cfg.Username, cfg.Password,
 		aci.RequestTimeout(600),
 	)
 	if err != nil {
@@ -60,14 +39,14 @@ func GetClient(cfg Config) (aci.Client, error) {
 	}
 
 	// Get logger with fabric context
-	logger := cfg.getLogger()
+	logger := getLogger(cfg)
 
 	// Authenticate
-	logger.Info().Str("host", cfg.Host).Msg("APIC host")
+	logger.Info().Str("host", cfg.URL).Msg("APIC host")
 	logger.Info().Str("user", cfg.Username).Msg("APIC username")
 	logger.Info().Msg("Authenticating to the APIC...")
 	if err := client.Login(); err != nil {
-		return aci.Client{}, fmt.Errorf("cannot authenticate to the APIC at %s: %v", cfg.Host, err)
+		return aci.Client{}, fmt.Errorf("cannot authenticate to the APIC at %s: %v", cfg.URL, err)
 	}
 	return client, nil
 }
@@ -75,7 +54,7 @@ func GetClient(cfg Config) (aci.Client, error) {
 func fetchWithRetry(
 	client aci.Client,
 	path string,
-	cfg Config,
+	cfg config.FabricConfig,
 	mods []func(*aci.Req),
 ) (gjson.Result, error) {
 	res, err := client.Get(path, mods...)
@@ -84,13 +63,13 @@ func fetchWithRetry(
 	}
 
 	// Get logger with fabric context
-	logger := cfg.getLogger()
+	logger := getLogger(cfg)
 
 	// Retry for requestRetryCount times
-	for retries := 0; err != nil && retries < cfg.RequestRetryCount; retries++ {
+	for retries := 0; err != nil && retries < cfg.GetRequestRetryCount(); retries++ {
 		logger.Warn().Err(err).Msgf("request failed for %s. Retrying after %d seconds.",
-			path, cfg.RetryDelay)
-		time.Sleep(time.Second * time.Duration(cfg.RetryDelay))
+			path, cfg.GetRetryDelay())
+		time.Sleep(time.Second * time.Duration(cfg.GetRetryDelay()))
 		res, err = client.Get(path, mods...)
 	}
 	if err != nil {
@@ -100,12 +79,12 @@ func fetchWithRetry(
 }
 
 // Fetch fetches data via API and writes it to the provided archive.
-func Fetch(client aci.Client, req req.Request, arc archive.Writer, cfg Config) error {
+func Fetch(client aci.Client, req req.Request, arc archive.Writer, cfg config.FabricConfig) error {
 	path := "/api/class/" + req.Class
 	startTime := time.Now()
 
 	// Get logger with fabric context
-	logger := cfg.getLogger()
+	logger := getLogger(cfg)
 
 	logger.Debug().Time("start_time", startTime).Msgf("begin: %s", req.Class)
 	logger.Debug().Msgf("fetching %s...", req.Class)
@@ -138,16 +117,16 @@ func paginate(
 	client aci.Client,
 	req req.Request,
 	arc archive.Writer,
-	cfg Config,
+	cfg config.FabricConfig,
 	mods []func(*aci.Req),
 ) error {
 	path := "/api/class/" + req.Class
 
 	// Get logger with fabric context
-	logger := cfg.getLogger()
+	logger := getLogger(cfg)
 
 	logger.Info().Msgf("fetching large dataset for %s...", req.Class)
-	mods = append(mods, aci.Query("page-size", strconv.Itoa(cfg.PageSize)))
+	mods = append(mods, aci.Query("page-size", strconv.Itoa(cfg.GetPageSize())))
 
 	logger.Info().Msgf("fetching page 0 for %s...", req.Class)
 	res, err := fetchWithRetry(client, path, cfg, mods)
@@ -158,19 +137,19 @@ func paginate(
 	cnt, _ := strconv.Atoi(res.Get("totalCount").Str)
 
 	logger.Info().Msgf("Total record count for %s: %d", req.Class, cnt)
-	pages := cnt / cfg.PageSize
+	pages := cnt / cfg.GetPageSize()
 
 	batch := 1
-	for i := 0; i < pages; i += cfg.BatchSize {
+	for i := 0; i < pages; i += cfg.GetBatchSize() {
 		var g errgroup.Group
 		logger.Info().Msg(strings.Repeat("*", 30))
 		logger.Info().Msgf("Fetching paginated request batch %d", batch)
 		logger.Info().Msg(strings.Repeat("*", 30))
-		for j := i; j < i+cfg.BatchSize && j < pages; j++ {
+		for j := i; j < i+cfg.GetBatchSize() && j < pages; j++ {
 			page := j
 			g.Go(func() error {
 				// Get logger with fabric context for goroutine
-				pageLogger := cfg.getLogger()
+				pageLogger := getLogger(cfg)
 
 				pageLogger.Info().Msgf("fetching page %d of %d for %s...", page, pages, req.Class)
 				mods := append(mods, aci.Query("page", strconv.Itoa(page)))

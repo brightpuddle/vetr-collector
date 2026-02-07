@@ -77,9 +77,7 @@ func runSingleFabric(cfg *config.Config) {
 	collectErr := collectFabric(client, arc, reqs, fabric)
 
 	arc.Close()
-	log.Info().Msg("==============================")
-	log.Info().Msg("Complete")
-	log.Info().Msg("==============================")
+	log.Info().Msg("====== Complete ======")
 
 	path, err := os.Getwd()
 	if err != nil {
